@@ -1,0 +1,12 @@
+/*Fuentes de letras exportadas*/
+@font-face {
+    font-family: 'Maxlock';
+    src: url('maxlock/Maxlock.otf') format('truetype'),
+    url('maxlock/Maxlock.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Blenda-script';
+    src: url('blenda_script/Blenda\ Script.otf') format('truetype'),
+    url('blenda_script/Blenda\ Script.otf') format('opentype');
+}

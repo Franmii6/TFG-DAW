@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Configura la vista para dispositivos móviles -->
+    <link
+      rel="icon"
+      href="assets/imges/FotosGenerales/LogoBarberia.png"
+      type="image/jpeg"
+    />
+    <!-- Ícono del sitio -->
+    <title>Peluquería Barbers</title>
+
+    <link rel="stylesheet" href="styles/fonts.css" />
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="styles/register.css" />
+  </head>
+  <body>
+    <!-- Cabecera -->
+    <header>
+      <!-- Logo con enlace a la página de inicio -->
+      <a href="index.html">
+        <img
+          class="imagen"
+          src="assets/imges/FotosGenerales/LogoBarberia.png"
+          alt="Logo de la Peluquería"
+        />
+      </a>
+      <div class="menu-toggle" onclick="toggleMenu()">
+      </div>
+
+      <!-- Menú de navegación -->
+      <nav id="menu">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="pagina2.html">Equipo</a></li>
+          <li><a href="pagina3.html">Servicios</a></li>
+          <li><a href="pagina4.html">Contacto</a></li>
+          <li><a href="AcercaDe.html">Acerca de</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="register.html">Register</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- Cuerpo de la pagina-->
+<main>
+    <div class="form_wrapper">
+        <div class="form_container">
+          <div class="title_container">
+            <h2>Formulario de registro de Barbers</h2>
+          </div>
+          <div class="row clearfix">
+            <div class="">
+              <form  onsubmit="return register(event)">
+                <div class="row clearfix">
+                  <div class="col_half">
+                    <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                      <input type="text" id="nombre" placeholder="Nombre" />
+                    </div>
+                  </div>
+                  <div class="col_half">
+                    <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                      <input type="text" id="nombreUsuario" placeholder="Nombre usuario" />
+                    </div>
+                  </div>
+                </div>
+                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-envelope"></i></span>
+                  <input type="email" id="email" placeholder="Email" required />
+                </div>
+                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-lock"></i></span>
+                  <input type="password" id="contrasena" placeholder="Password" required />
+                </div>
+                <div class="input_field"> <span><i aria-hidden="true" class="fa fa-user"></i></span>
+                    <input type="password" id="contrasena_confirmation" placeholder="Confirm Password" required />
+                </div>
+                <input class="button" type="submit" value="Register" />
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+</main>
+<!-- Pie de pagina -->
+<footer>
+    <p>
+      <a href="AcercaDe.html" class="PieDePagina"
+        >Esta es una empresa ficticia y este sitio web es un proyecto de
+        prácticas.<br />
+        © 2025 Peluquería Barbers. Todos los derechos reservados.</a>
+    </p>
+  </footer>
+  <!-- Script de las funciones de la aplicación -->
+   <script src="js/app.js"></script>
+  <!-- Script esconder header -->
+  <script src="js/hideHeader.js"></script>
+  <!-- Script menu hamburguesa en pantallas moviles -->
+  <script src="js/toggleMenu.js"></script>
+</body>
+</html>
