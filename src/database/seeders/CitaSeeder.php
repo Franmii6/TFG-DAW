@@ -16,6 +16,6 @@ class CitaSeeder extends Seeder
     {
         //Seeder para ir anadiendo citas poco a poco, ejecutar varias veces.
         //Cita::factory(30000)->create();
-        CitaServicio::factory(1000)->create();
+        //CitaServicio::factory(1000)->create();
     }
 }

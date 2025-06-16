@@ -18,7 +18,20 @@ class Contrato extends Model
         'numero_de_atenciones_realizadas',
         'fecha_inicio',
         'fecha_fin',
+        'estado',
     ];
+
+    protected $casts = [
+        'fecha_inicio' => 'datetime',
+        'fecha_fin'    => 'datetime',
+        'estado'       => 'string',
+    ];
+
+    /** Scope para contratos activos */
+    public function scopeActivos($query)
+    {
+        return $query->where('estado','activo');
+    }
 
     /**
      * Get the cliente that owns the Contrato

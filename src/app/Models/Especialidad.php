@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 
 class Especialidad extends Model
 {
+    protected $table = 'especialidads';
     protected $fillable = [
         'nombre',
     ];
@@ -30,6 +31,13 @@ class Especialidad extends Model
      */
     public function empleados(): BelongsToMany
     {
-        return $this->belongsToMany(Empleado::class, 'empleado_especialidads', 'especialidad_id', 'empleado_id');
+        return $this
+        ->belongsToMany(Empleado::class, 'empleado_especialidad', 'especialidad_id', 'empleado_id')
+        ->withTimestamps();
+    }
+
+    public function servicios()
+    {
+        return $this->hasMany(Servicio::class);
     }
 }

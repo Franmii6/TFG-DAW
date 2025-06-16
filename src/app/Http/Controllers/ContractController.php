@@ -23,6 +23,7 @@ class ContractController extends Controller
             'numero_de_atenciones_realizadas' => 'sometimes|integer|max:50',
             'fecha_inicio' => 'sometimes|date', //Por defecto es la de hoy
             'fecha_fin' => 'sometimes|date',    //Por defecto es la de dentro de 1 año
+            'estado' => 'sometimes|in:activo,finalizado',
         ], [
             'numero_de_atenciones.required' => 'El numero de atenciones es obligatorio',
             'numero_de_atenciones.integer' => 'El numero de atenciones debe ser un entero',
@@ -32,7 +33,9 @@ class ContractController extends Controller
 
             'fecha_inicio.date' => 'La fecha de inicio debe tener formato de fecha. Por defecto, es la de hoy.',
 
-            'fecha_fin.date' => 'La fecha de fin debe tener formato de fecha. Por defecto, es la de dentro de 1 año.'
+            'fecha_fin.date' => 'La fecha de fin debe tener formato de fecha. Por defecto, es la de dentro de 1 año.',
+
+            'estado.in' => 'El estado debe ser activo o finalizado',
         ]);
 
         // Asignar 0 por defecto si no se incluye 'numero_de_atenciones_realizadas'
@@ -44,12 +47,16 @@ class ContractController extends Controller
         // Asignar la fecha de dentro de un año si no se incluye 'fecha_fin'
         $fechaFin = $validatedData['fecha_fin'] ?? now()->addYear()->format('Y-m-d');
 
+        //Asignar el estado del contrato si no se incluye
+        $estado = $validatedData['estado'] ?? 'activo';
+
         $contrato = Contrato::create([
             'cliente_id' => $idCliente,
             'numero_de_atenciones' => $validatedData['numero_de_atenciones'],
             'numero_de_atenciones_realizadas' => $numeroDeAtencionesRealizadas,
             'fecha_inicio' => $fechaInicio,
             'fecha_fin' => $fechaFin,
+            'estado'      => $estado,
         ]);
 
         return response()->json($contrato, 201);
@@ -125,6 +132,7 @@ class ContractController extends Controller
             'numero_de_atenciones_realizadas' => 'sometimes|integer|max:50',
             'fecha_inicio' => 'sometimes|date',
             'fecha_fin' => 'sometimes|date',
+            'estado' => 'sometimes|in:activo,finalizado',
         ], [
             'numero_de_atenciones.integer' => 'El numero de atenciones debe ser un entero',
             'numero_de_atenciones.max' => 'El maximo de numero de atenciones es de 50',
@@ -134,7 +142,9 @@ class ContractController extends Controller
 
             'fecha_inicio.date' => 'La fecha de inicio debe tener formato de fecha.',
 
-            'fecha_fin.date' => 'La fecha de fin debe tener formato de fecha.'
+            'fecha_fin.date' => 'La fecha de fin debe tener formato de fecha.',
+
+            'estado.in' => 'El estado debe ser activo o finalizado',
         ]);
 
         $contrato->update($validatedData);

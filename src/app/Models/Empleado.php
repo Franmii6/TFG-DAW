@@ -42,6 +42,8 @@ class Empleado extends Model
      */
     public function especialidades(): BelongsToMany
     {
-        return $this->belongsToMany(Especialidad::class, 'empleado_especilidads', 'empleado_id', 'especialidad_id');
+        return $this
+        ->belongsToMany(Especialidad::class, 'empleado_especialidad', 'empleado_id', 'especialidad_id')
+        ->withTimestamps();
     }
 }

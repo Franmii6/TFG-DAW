@@ -37,6 +37,15 @@ class Usuario extends Authenticatable
    ];
 
    /**
+     * Laravel llama a este método para obtener el hash
+     * con el que comparar la contraseña en login.
+     */
+    public function getAuthPassword()
+    {
+        return $this->contrasena;
+    }
+
+   /**
     * Get the empleado associated with the Usuario
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -53,7 +62,7 @@ class Usuario extends Authenticatable
     */
    public function cliente(): HasOne
    {
-       return $this->hasOne(Cliente::class);
+       return $this->hasOne(Cliente::class, 'usuario_id');
    }
 
    /**

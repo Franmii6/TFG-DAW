@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('descripcion');
             $table->integer('duracion');
             $table->decimal('precio', 8, 2);
+            $table->foreignId('especialidad_id')
+                ->constrained()
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

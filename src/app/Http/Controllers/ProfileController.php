@@ -8,6 +8,7 @@ use App\Models\Cliente;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Contrato;
 
 /**
  * Clase Controlador Perfil de un Usuario
@@ -65,16 +66,44 @@ class ProfileController extends Controller
             'DNI' => $validatedData['DNI'],
         ]);
 
+        // 3) Crear contrato inicial
+        if (! $cliente->contratos()->activos()->exists()) {
+            $contrato = Contrato::create([
+                'cliente_id'                      => $cliente->id,
+                'numero_de_atenciones'            => 0,
+                'numero_de_atenciones_realizadas' => 0,
+                'fecha_inicio'                    => now()->toDateString(),
+                'fecha_fin'                       => now()->addYear()->toDateString(),
+                'estado'                          => 'activo',
+            ]);
+        }
+
         // Respuesta exitosa
         return response()->json([
             'message' => 'Cliente creado y asociado al usuario exitosamente',
-            'cliente' => $cliente,
-            'usuario' => [
-                'id' => $user->id,
-                'nombre' => $user->nombre,
+            'usuario'  => [
+                'id'            => $user->id,
+                'nombre'        => $user->nombre,
                 'nombreUsuario' => $user->nombreUsuario,
-                'email' => $user->email,
-            ]
+                'email'         => $user->email,
+            ],
+            'cliente'  => [
+                'id'          => $cliente->id,
+                'contrato_id' => $cliente->contrato_id,
+                'apellidos'   => $cliente->apellidos,
+                'tlf'         => $cliente->tlf,
+                'direccion'   => $cliente->direccion,
+                'municipio'   => $cliente->municipio,
+                'provincia'   => $cliente->provincia,
+                'DNI'         => $cliente->DNI,
+            ],
+            'contrato' => isset($contrato) ? [
+                'id'                          => $contrato->id,
+                'numero_de_atenciones'        => $contrato->numero_de_atenciones,
+                'numero_de_atenciones_realizadas' => $contrato->numero_de_atenciones_realizadas,
+                'fecha_inicio'                => $contrato->fecha_inicio,
+                'fecha_fin'                   => $contrato->fecha_fin,
+            ] : null,
         ], 201);
     }
     
@@ -139,11 +168,12 @@ class ProfileController extends Controller
 
         $user->update($validatedUserData);
 
-        // Actualizar los datos del cliente
-        $cliente = $user->cliente; // Obtener el cliente asociado al usuario
-        if ($validatedClientData && $cliente) {
-            $cliente->update($validatedClientData);
-        }
+        // Actualizr o crear el cliente
+        $cliente = Cliente::updateOrCreate(
+        ['usuario_id' => $user->id],
+        $validatedClientData
+        );
+
 
         // Respuesta exitosa con los datos actualizados
         return response()->json([
@@ -176,6 +206,7 @@ class ProfileController extends Controller
 
         $user->update($validatedUserData);
 
+
         if ($user->cliente) {
             $cliente = $user->cliente;
         } else {
@@ -187,6 +218,73 @@ class ProfileController extends Controller
             'message' => 'Datos de usuario y cliente actualizados exitosamente',
             'usuario' => $user,
             'cliente' => $cliente,
+        ], 200);
+    }
+
+/**
+ * Obtener datos de perfil (usuario + cliente).
+ */
+    public function show(Request $request)
+    {
+        $user = Auth::user();
+        $clienteModel = $user->cliente;
+        $contratoData = null;
+
+        if ($clienteModel) {
+            // Obtenemos el contrato a través de la relación hasOne()
+            $contratoModel = $clienteModel->contrato;
+
+            if ($contratoModel && $contratoModel->estado === 'activo') {
+                $ahora = now();
+                if ($ahora->greaterThan($contratoModel->fecha_fin)) {
+                    $contratoModel->update(['estado' => 'finalizado']);
+                } elseif ($contratoModel->numero_de_atenciones_realizadas >= $contratoModel->numero_de_atenciones) {
+                    $contratoModel->update(['estado' => 'finalizado']);
+                }
+                $contratoModel->refresh();
+            }
+
+            $clienteData = [
+                'id'          => $clienteModel->id,
+                'apellidos'   => $clienteModel->apellidos,
+                'tlf'         => $clienteModel->tlf,
+                'direccion'   => $clienteModel->direccion,
+                'municipio'   => $clienteModel->municipio,
+                'provincia'   => $clienteModel->provincia,
+                'DNI'         => $clienteModel->DNI,
+            ];
+
+            if (isset($contratoModel)) {
+                $contratoData = [
+                    'id'                              => $contratoModel->id,
+                    'numero_de_atenciones'            => $contratoModel->numero_de_atenciones,
+                    'numero_de_atenciones_realizadas' => $contratoModel->numero_de_atenciones_realizadas,
+                    'fecha_inicio'                    => $contratoModel->fecha_inicio->toDateTimeString(),
+                    'fecha_fin'                       => $contratoModel->fecha_fin->toDateTimeString(),
+                    'estado'                          => $contratoModel->estado,
+                ];
+            }
+        } else {
+            $clienteData = [
+                'id'          => null,
+                'apellidos'   => '',
+                'tlf'         => '',
+                'direccion'   => '',
+                'municipio'   => '',
+                'provincia'   => '',
+                'DNI'         => '',
+            ];
+        }
+
+        return response()->json([
+            'usuario'  => [
+                'id'            => $user->id,
+                'nombre'        => $user->nombre,
+                'nombreUsuario' => $user->nombreUsuario,
+                'email'         => $user->email,
+            ],
+            'cliente'  => $clienteData,
+            'contrato' => $contratoData,
         ], 200);
     }
 }

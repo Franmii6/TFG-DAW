@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreignId('empleado_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('contrato_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->dateTime('fecha')->nullable();
-            $table->enum('estado', ['pendiente', 'cancelado', 'completado']);
+            $table->enum('estado', ['pendiente', 'cancelada', 'completada']);
             $table->integer('numero_de_atenciones');
+            $table->boolean('has_comment')->default(false); // Booleano para evaluar si tiene comentario o no
             $table->timestamps();
         });
     }
@@ -31,3 +32,4 @@ return new class extends Migration
         Schema::dropIfExists('citas');
     }
 };
+

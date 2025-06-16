@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('numero_de_atenciones_realizadas')->default(0);
             $table->dateTime('fecha_inicio')->default(now());
             $table->dateTime('fecha_fin');
+            $table->enum('estado', ['activo','finalizado'])
+                ->default('activo');
             $table->timestamps();
         });
     }

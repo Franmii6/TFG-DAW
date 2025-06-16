@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class EmpleadoEspecilidad extends Model
+class EmpleadoEspecialidad extends Pivot
 {
-    use HasFactory;
+    // O si la has renombrado a empleado_especialidad:
+    protected $table = 'empleado_especialidad';
 
-    /*protected $fillable = [
+    protected $fillable = [
         'empleado_id',
-        'especialidad_id'
-    ];*/
+        'especialidad_id',
+    ];
 }

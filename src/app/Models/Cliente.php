@@ -23,6 +23,7 @@ class Cliente extends Model
         'DNI'
     ];
     
+
     /**
      * Get the usuario that owns the Cliente
      *
@@ -46,8 +47,8 @@ class Cliente extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function contratos(): HasMany
+    public function contrato(): HasOne
     {
-        return $this->hasMany(Contrato::class);
+        return $this->hasOne(Contrato::class);
     }
 }

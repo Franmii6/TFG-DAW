@@ -16,6 +16,7 @@ class Servicio extends Model
         'descripcion',
         'duracion',
         'precio',
+        'especialidad_id'
     ];
  /**
   * The citas that belong to the Servicio
@@ -26,5 +27,10 @@ class Servicio extends Model
  {
      return $this->belongsToMany(Cita::class, 'cita_servicios', 'servicio_id', 'cita_id');
  }
+
+ public function especialidad()
+    {
+        return $this->belongsTo(Especialidad::class);
+    }
  
 }

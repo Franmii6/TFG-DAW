@@ -11,7 +11,6 @@ use App\Http\Controllers\SpecialtyController;
 use App\Http\Controllers\EmployeeSpecialtyController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ProfileController;
-use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 
 Route::get('/', [PageController::class, 'index'])->name('index');
 Route::get('/acerca-de', [PageController::class, 'acercaDe'])->name('acerca-de');
@@ -31,8 +30,9 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 // Ruta logout con middleware
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-// Ruta para obtener los datos y un usuario autenticado
-Route::get('getUser', [AuthController::class, 'getUser'])->middleware('auth:sanctum');
+//Ruta para obtener los datos y un usuario autenticado
+Route::middleware('auth:sanctum')->get('/getUser', [AuthController::class, 'getUser']);
+//Route::get('getUser', [AuthController::class, 'getUser'])->middleware('auth');
 
 // Perfil Usuario
 Route::post('profile', [ProfileController::class, 'add'])->middleware('auth:sanctum');
@@ -44,7 +44,6 @@ Route::post('{id}/customers', [CustomerController::class, 'addClient']);
 Route::get('customers', [CustomerController::class, 'show']);
 Route::get('customers/{id}', [CustomerController::class, 'getCustomer']);
 Route::put('customers/{id}', [CustomerController::class, 'update']);
-Route::put('customers/{id}', [CustomerController::class, 'update']);
 Route::delete('customers/{id}', [CustomerController::class, 'delete']);
 
 // Rutas para gestionar contratos de un cliente específico
@@ -52,8 +51,8 @@ Route::post('customers/{id}/contracts', [ContractController::class, 'add']);
 Route::get('contracts', [ContractController::class, 'showAll']);
 Route::get('{id}/contracts', [ContractController::class, 'show']);
 Route::get('customers/{id}/contracts/{contractId}', [ContractController::class, 'getContract']);
-Route::put('contracts/{contractId}', [ContractController::class, 'update']);
-Route::delete('contracts/{contractId}', [ContractController::class, 'delete']);
+Route::put('contracts/{contractId}', [ContractController::class, 'update']); //Admin
+Route::delete('contracts/{contractId}', [ContractController::class, 'delete']); //Admin
 
 //Empleados
 Route::post('employees', [EmployeeController::class, 'add']);

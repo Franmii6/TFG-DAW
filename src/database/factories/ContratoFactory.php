@@ -24,7 +24,7 @@ class ContratoFactory extends Factory
         return [
             'cliente_id' => fake()->randomElement($cliente_id),
             'numero_de_atenciones' => 10,
-            'numero_de_atenciones_realizadas' => random_int(0,9),
+            'numero_de_atenciones_realizadas' => 0,
             'fecha_inicio' => $fecha_inicio,
             'fecha_fin' => $fecha_fin,
         ];

@@ -2,10 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Cita;
-use App\Models\Servicio;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
+use App\Models\Especialidad;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Servicio>
@@ -24,6 +22,7 @@ class ServicioFactory extends Factory
             'descripcion' => fake()->text(50),
             'duracion' => random_int(15, 120),
             'precio' => rand(1000, 10000) / 100,
+            'especialidad_id'  => Especialidad::inRandomOrder()->first()->id,
         ];
     }
 
