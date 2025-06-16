@@ -1,0 +1,194 @@
+/* Estilos generales para el cuerpo del panel de administración */
+body {
+  background-color: #f4f4f4;
+  color: #333;
+  font-family: "Maxlock", sans-serif;
+}
+
+/* Estilos para el overlay del título principal */
+.overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 2rem 0;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+#admin-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Contenedor principal del contenido del panel */
+main {
+  padding: 0 2rem;
+}
+
+/* Estilos de las secciones (Clientes, Trabajadores, etc.) */
+.seccion {
+  display: none; /* Ocultas por defecto */
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.seccion.activa {
+  display: block; /* Muestra solo la sección activa */
+}
+
+.seccion h2 {
+  font-size: 2rem;
+  color: #db7704;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #eee;
+}
+
+/* Estilos para hacer las tablas responsivas */
+.table-responsive {
+    overflow-x: auto;
+}
+
+/* Estilos de las tablas */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+}
+
+table th,
+table td {
+  padding: 3px 4px;
+  border: 1px solid #ddd;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+table th {
+  background-color: #333;
+  color: #fff;
+  font-weight: bold;
+}
+
+table tr:nth-of-type(even) {
+  background-color: #f9f9f9;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilos para los botones de acción en las tablas */
+td.acciones {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.btn-editar, .btn-eliminar, .btn-guardar {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-family: "Maxlock", sans-serif;
+  font-size: 11px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-editar {
+  background-color: #28a745; /* Verde */
+}
+.btn-editar:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.btn-eliminar {
+  background-color: #dc3545; /* Rojo */
+}
+.btn-eliminar:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+}
+
+.btn-guardar {
+    background-color: #007bff; /* Azul */
+}
+.btn-guardar:hover {
+    background-color: #0069d9;
+    transform: translateY(-2px);
+}
+
+/* Estilos para el Modal de Edición */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1001;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding-top: 60px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px 30px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #db7704;
+}
+
+.close-btn {
+  color: #aaa;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close-btn:hover,
+.close-btn:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Estilos del formulario dentro del modal */
+#edit-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#edit-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-actions {
+    text-align: right;
+    margin-top: 20px;
+}

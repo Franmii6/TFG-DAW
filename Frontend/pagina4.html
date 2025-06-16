@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <!-- Metadatos de la página -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="assets/imges/FotosGenerales/LogoBarberia.png"
+      type="image/jpeg"
+    />
+
+    <!-- Título de la página -->
+    <title>Peluquería Barbers</title>
+
+    <link rel="stylesheet" href="styles/fonts.css" />
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="styles/contacto.css" />
+
+    <!-- Enlace a la hoja de estilos de Leaflet para el mapa -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  </head>
+
+  <body>
+    <header>
+      <!-- Enlace al logo que lleva a la página principal -->
+      <a href="portada.html">
+        <img
+          class="imagen"
+          src="assets/imges/FotosGenerales/LogoBarberia.png"
+          alt="Logo de la Peluquería"
+        />
+      </a>
+      <!-- Menú de hamburguesa para móviles -->
+      <div class="menu-toggle" onclick="toggleMenu()">
+      </div>
+
+      <!-- Menú de navegación -->
+      <nav id="menu">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="pagina2.html">Equipo</a></li>
+          <li><a href="pagina3.html">Servicios</a></li>
+          <li><a href="pagina4.html">Contacto</a></li>
+          <li><a href="AcercaDe.html">Acerca de</a></li>
+          <li><a href="login.html" id="nav-login">Login</a></li>
+          <li><a href="register.html" id="nav-register">Register</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Imagen de parallax -->
+      <div class="parallax"></div>
+
+      <!-- Sección de contacto -->
+      <section id="inicio" class="section">
+        <div class="container">
+          <!-- Formulario de contacto -->
+          <div class="contact-form">
+            <h3 class="h3mensaje">Envíanos un mensaje</h3>
+            <form>
+              <input
+                type="email"
+                name="email"
+                placeholder="Tu correo electrónico"
+                required
+              />
+              <input type="text" name="subject" placeholder="Asunto" required />
+              <textarea
+                name="message"
+                rows="5"
+                placeholder="Tu mensaje"
+                required
+              ></textarea>
+              <button type="submit">Enviar</button>
+            </form>
+          </div>
+
+          <!-- Información adicional -->
+          <div class="info-container">
+            <h2 class="h3mensaje">Más Información</h2>
+            <div class="info-item">
+              <p>
+                <strong
+                  ><img src="assets/imges/Contacta/edificios.png" alt="" width="25px" />
+                  Nombre de la Empresa:</strong
+                >
+                Peluquería Barbers
+              </p>
+              <p>
+                <strong
+                  ><img src="assets/imges/Contacta/ubicacion.png" alt="" width="25px" />
+                  Dirección:</strong
+                >
+                Paseo Marítimo, Aguadulce, Almería
+              </p>
+            </div>
+            <div class="info-item">
+              <p>
+                <strong
+                  ><img src="assets/imges/Contacta/telefono.png" alt="" width="25px" />
+                  Teléfono:</strong
+                ><br /><a href="tel:+34600123456">+34 600 123 456</a>
+              </p>
+              <p>
+                <strong
+                  ><img src="assets/imges/Contacta/correo.png" alt="" width="25px" />
+                  Correo Electrónico:</strong
+                >
+                <a href="danielcalvache057@gmail.com">info@barbershop.com</a>
+              </p>
+            </div>
+
+            <!-- Redes sociales -->
+            <div class="social-media">
+              <a href="https://instagram.com" target="_blank"
+                ><img src="assets/imges/Contacta/instagram.png" alt="Instagram"
+              /></a>
+              <a href="https://twitter.com" target="_blank"
+                ><img src="assets/imges/Contacta/gorjeo.png" alt="Twitter"
+              /></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sección de mapa -->
+      <section id="mapa" class="section">
+        <div class="flexMapa">
+          <h2 class="h2mapa">Ubicación</h2>
+        </div>
+        <div id="map"></div>
+      </section>
+    </main>
+
+    <!-- Pie de página -->
+    <footer>
+      <p>
+        <a href="AcercaDe.html" class="PieDePagina"
+          >Esta es una empresa ficticia y este sitio web es un proyecto de
+          prácticas.<br />
+          © 2025 Peluquería Barbers. Todos los derechos reservados.</a
+        >
+      </p>
+    </footer>
+    
+    <!-- Script esconder header -->
+    <script src="js/hideHeader.js"></script>
+    <!-- Script menu hamburguesa en pantallas moviles -->
+    <script src="js/toggleMenu.js"></script>
+    <!-- Script de Leaflet para el mapa -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="js/leafletMap.js"></script>
+    <script src="js/app.js"></script>
+
+  </body>
+</html>

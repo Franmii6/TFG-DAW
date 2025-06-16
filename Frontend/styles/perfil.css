@@ -1,0 +1,188 @@
+/* Ocultar scroll global en esta página */
+body {
+  overflow: hidden;
+}
+
+/* Sidenav */
+.sidenav {
+  background-color: #222;
+  color: #fff;
+  border-bottom-right-radius: 25px;
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 250px;
+  height: calc(100% - 70px);
+  padding-top: 20px;
+}
+
+.sidenav .profile {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sidenav .profile .imagen {
+  width: 100px;
+  height: 100px;
+  border-radius: 6%;
+  transition: transform 0.5s ease;
+}
+
+.sidenav .profile .imagen:hover {
+  transform: scale(1.1);
+}
+
+.sidenav .profile .name {
+  font-family: "Maxlock", sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.sidenav-url {
+  margin-top: 20px;
+}
+
+.sidenav-url a {
+  display: block;
+  color: #fff;
+  font-family: "Maxlock", sans-serif;
+  font-size: 18px;
+  padding: 8px 20px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.sidenav-url hr {
+  width: 60%;
+  margin: 0.5rem auto;
+  border: none;
+  border-bottom: 1px solid #444;
+}
+
+.sidenav-url a.active,
+.sidenav-url a:hover {
+  background-color: #db7704;
+  color: #fff;
+  border-radius: 20px;
+  margin-left: 10%;
+  width: 80%;
+}
+
+/* Área principal */
+.main {
+  position: absolute;
+  top: 90px;
+  left: 270px;
+  right: 20px;
+  bottom: 20px;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.main h2 {
+  font-family: "Maxlock", sans-serif;
+  font-size: 24px;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+/* Formulario de perfil */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.profile-form fieldset {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.profile-form legend {
+  font-family: "Maxlock", sans-serif;
+  font-weight: bold;
+  padding: 0 0.5rem;
+  color: #333;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 0.3rem;
+  font-family: "Maxlock", sans-serif;
+  color: #333;
+}
+
+.form-group input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: "Maxlock", sans-serif;
+}
+
+/* Botones de acciones */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.form-actions button {
+  padding: 10px 20px;
+  background-color: #db7704;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Maxlock", sans-serif;
+  font-size: 16px;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.form-actions button:hover {
+  background-color: #b35f00;
+}
+
+.form-actions button:active {
+  transform: scale(0.9);
+}
+
+.cita-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  padding: 16px;
+  margin-bottom: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.cita-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.cita-card p {
+  margin: 6px 0;
+  font-size: 16px;
+  color: #333;
+}
+.cita-card .cita-actions {
+  margin-top: 12px;
+  text-align: right;
+}
+.cita-card .btn {
+  padding: 8px 14px;
+  background-color: #db7704;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+.cita-card .btn:hover {
+  background-color: #b35f00;
+}

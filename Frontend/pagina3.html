@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Configura la vista para dispositivos móviles -->
+    <link
+      rel="icon"
+      href="assets/imges/FotosGenerales/LogoBarberia.png"
+      type="image/jpeg"
+    />
+    <title>Servicios - Peluquería Barbers</title>
+
+    <link rel="stylesheet" href="styles/fonts.css" />
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="styles/servicios.css" />
+  </head>
+  <body>
+    <!-- Contenedor para el loader -->
+    <div id="loader-container"></div>
+
+    <!-- Contenedor para todo el contenido que estará oculto hasta que se cargue la página -->
+    <div id="contenido" style="display: none;">
+      <!-- Cabecera -->
+      <header>
+        <a href="portada.html">
+          <img
+            class="imagen"
+            src="assets/imges/FotosGenerales/LogoBarberia.png"
+            alt="Logo de la Peluquería"
+          />
+        </a>
+        <div class="menu-toggle" onclick="toggleMenu()">
+          <div></div><div></div><div></div><div></div>
+        </div>
+        <nav id="menu">
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="pagina2.html">Equipo</a></li>
+            <li><a href="pagina3.html">Servicios</a></li>
+            <li><a href="pagina4.html">Contacto</a></li>
+            <li><a href="AcercaDe.html">Acerca de</a></li>
+            <li><a href="login.html" id="nav-login">Login</a></li>
+            <li><a href="register.html" id="nav-register">Registro</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main>
+        <div class="parallax"></div>
+
+        <!-- Sección de servicios -->
+        <section class="section">
+          <h2 class="h2titulos">Nuestros Servicios</h2>
+          <p>
+            Ofrecemos una variedad de servicios para que luzcas siempre impecable.
+            Desde cortes clásicos hasta las últimas tendencias.
+          </p>
+          <!-- En este contenedor se mostrará los servicios registrados.-->
+          <div class="container" id="servicesContainer"></div>
+        </section>
+
+        <!-- Sección de comentarios -->
+        <section class="comentarios">
+          <h2 class="h2titulos">Opiniones de Nuestros Clientes</h2>
+
+          <div id="comentariosRecientes"></div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer>
+        <p>
+          <a href="AcercaDe.html" class="PieDePagina">
+            Esta es una empresa ficticia y este sitio web es un proyecto de
+            prácticas.<br />
+            © 2025 Peluquería Barbers. Todos los derechos reservados.
+          </a>
+        </p>
+      </footer>
+
+      <!-- Modal de reserva -->
+      <div id="reservaModal" class="modal">
+        <div class="modal-content">
+          <span class="close-btn" id="closeReserva">&times;</span>
+          <h2 id="modalServiceTitle">Reservar servicio</h2>
+        
+          <p><strong>Servicio:</strong> <span id="modalServiceName"></span></p>
+          <p><strong>Duración:</strong> <span id="modalDuration"></span> minutos</p>
+          <p><strong>Precio:</strong> <span id="modalPrice"></span> €</p>
+        
+          <label>
+            Fecha:
+            <input type="date" id="resDate" />
+          </label>
+        
+          <div id="elegirEmpleado" class="elegir-empleado">
+            <label for="empleadoSelect">Elegir Empleado:</label>
+            <select id="empleadoSelect">
+              <!-- Se llenará en attachReserveButtons -->
+            </select>
+          </div>
+        
+          <div id="timeSlots" class="timeslots"></div>
+        
+          <button id="confirmReservaBtn" class="btn">Confirmar Reserva</button>
+        </div>
+      </div>
+   </div>
+</div> <!-- /#contenido -->
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/hideHeader.js"></script>
+    <script src="js/toggleMenu.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/modalReserva.js"></script>
+  </body>
+</html>
+

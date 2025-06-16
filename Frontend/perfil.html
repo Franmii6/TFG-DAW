@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+    rel="icon"
+    href="assets/imges/FotosGenerales/LogoBarberia.png"
+    type="image/jpeg"
+  />
+  <title>Perfil - Peluquería Barbers</title>
+  <link rel="stylesheet" href="./styles/styles.css">
+  <link rel="stylesheet" href="./styles/perfil.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+</head>
+<body>
+  <!-- Loader -->
+  <div id="loader-container"></div>
+
+  <!-- Contenido, oculto hasta window.load -->
+  <div id="contenido" style="display: none;">
+    <!-- Sidenav -->
+    <div class="sidenav">
+      <div class="profile">
+        <a href="index.html">
+          <img class="imagen" src="assets/imges/FotosGenerales/LogoBarberia.png" alt="Logo">
+        </a>
+        <div class="name"><span id="nombreUsuario1"></span></div>
+      </div>
+      <nav class="sidenav-url">
+        <a href="perfil.html" class="active">Perfil</a><hr>
+        <a href="index.html">Inicio</a><hr>
+        <a href="pagina2.html">Equipo</a><hr>
+        <a href="pagina3.html">Servicios</a><hr>
+        <a href="pagina4.html">Contacto</a><hr>
+        <a href="AcercaDe.html">Acerca de</a><hr>
+        <a href="#sign-out" onclick="logout()"><i class="fa fa-sign-out-alt fa-2x"></i></a>
+      </nav>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+      <form class="profile-form">
+        <h2>Datos del usuario</h2>
+        <div id="alerta-cliente" class="alerta" style="display:none;"></div>
+
+        <div id="editable">
+          <fieldset>
+            <legend>Datos personales</legend>
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input id="nombre" name="nombre" type="text" readonly>
+            </div>
+            <div class="form-group">
+              <label for="apellidos">Apellidos</label>
+              <input id="apellidos" name="apellidos" type="text" required readonly>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" readonly>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Dirección</legend>
+            <div class="form-group">
+              <label for="direccion">Dirección</label>
+              <input id="direccion" name="direccion" type="text" required readonly>
+            </div>
+            <div class="form-group">
+              <label for="municipio">Municipio</label>
+              <input id="municipio" name="municipio" type="text" required readonly>
+            </div>
+            <div class="form-group">
+              <label for="provincia">Provincia</label>
+              <input id="provincia" name="provincia" type="text" required readonly>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Identificación</legend>
+            <div class="form-group">
+              <label for="DNI">DNI</label>
+              <input id="DNI" name="DNI" type="text" required readonly>
+            </div>
+            <div class="form-group">
+              <label for="tlf">Teléfono</label>
+              <input id="tlf" name="tlf" type="tel" required readonly>
+            </div>
+          </fieldset>
+        </div>
+
+        <fieldset>
+          <legend>Contrato</legend>
+          <div id="alerta-contrato" class="alerta" style="display:none;"></div>
+          <div class="form-group">
+            <label for="contrato_id">ID Contrato</label>
+            <input id="contrato_id" name="contrato_id" type="text" readonly>
+          </div>
+          <div class="form-group">
+            <label for="numero_de_atenciones">Atenciones para completar el contrato</label>
+            <input id="numero_de_atenciones" name="numero_de_atenciones" type="number" readonly>
+          </div>
+          <div class="form-group">
+            <label for="numero_de_atenciones_realizadas">Atenciones realizadas</label>
+            <input id="numero_de_atenciones_realizadas" name="numero_de_atenciones_realizadas" type="number" readonly>
+          </div>
+          <div class="form-group">
+            <label for="fecha_inicio">Fecha inicio</label>
+            <input id="fecha_inicio" name="fecha_inicio" type="date" readonly>
+          </div>
+          <div class="form-group">
+            <label for="fecha_fin">Fecha fin</label>
+            <input id="fecha_fin" name="fecha_fin" type="date" readonly>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="button" id="rellenarBtn"><i class="fa fa-sync-alt"></i> Rellenar datos</button>
+          <button type="button" id="editBtn"><i class="fa fa-pen"></i> Editar</button>
+          <button type="submit" id="saveBtn" style="display:none;">Guardar</button>
+          <button type="button" id="cancelBtn" style="display:none;">Cancelar</button>
+        </div>
+      </form>
+
+      <br>
+      <br>
+
+      <!-- Últimas Citas -->
+      <section id="ultimas-citas">
+        <h2>Últimas Citas</h2>
+        <div id="listaCitas"></div>
+      </section>
+
+      <!-- Modal Comentarios -->
+      <div id="modalComentario" class="modal" style="display: none;">
+        <div class="modal-content">
+          <span class="close-btn" id="closeModalComentario">&times;</span>
+          <h3 id="modalComentarioTitle">Evaluar cita</h3>
+          <div id="modalBodyComentario">
+          
+            <!-- FORMULARIO (POST / PUT) -->
+            <form id="formComentario" style="display: none;">
+              <input type="hidden" id="citaIdParaComentario" />
+              <div class="form-group">
+                <label for="textoComentario">Tu opinión</label>
+                <textarea id="textoComentario" rows="4" required></textarea>
+              </div>
+              <div class="form-group">
+                <label for="valoracionComentario">Valoración (1-5)</label>
+                <select id="valoracionComentario" required>
+                  <option value="">Selecciona...</option>
+                  <option value="1">1. Muy malo</option>
+                  <option value="2">2. Malo</option>
+                  <option value="3">3. Regular</option>
+                  <option value="4">4. Bueno</option>
+                  <option value="5">5. Excelente</option>
+                </select>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn">Enviar opinión</button>
+                <button type="button" class="btn btn--secondary" id="btnCancelarUpdate">Cancelar</button>
+              </div>
+            </form>
+          
+            <!-- VISTA DE SOLO LECTURA -->
+            <div id="contenedorVerOpinion" style="display: none;">
+              <p><strong>Servicio:</strong>   <span id="servicioVerOpinion"></span></p>
+              <p><strong>Fecha de cita:</strong> <span id="fechaVerOpinion"></span></p>
+              <p><strong>Empleado:</strong>   <span id="empleadoVerOpinion"></span></p>
+              <hr>
+              <p><strong>Opinión:</strong>    <span id="textoVerOpinion"></span></p>
+              <p><strong>Valoración:</strong> <span id="valoracionVerOpinion"></span> / 5</p>
+              <div class="form-actions opinion-actions">
+                <button id="btnActualizarOpinion" class="btn">Actualizar</button>
+                <button id="btnEliminarOpinion"  class="btn btn--danger">Eliminar</button>
+              </div>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+
+
+    </div> <!-- /.main -->
+  </div> <!-- /#contenido -->
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+</body>
+</html>

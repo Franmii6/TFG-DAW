@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Administración</title>
+  <link rel="icon" href="assets/imges/FotosGenerales/LogoBarberia.png" type="image/jpeg" />
+  <!-- Asegúrate de que las rutas a tus archivos CSS son correctas -->
+  <link rel="stylesheet" href="styles/fonts.css" />
+  <link rel="stylesheet" href="styles/styles.css" />
+  <link rel="stylesheet" href="styles/admin.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <a href="index.html">
+      <img class="imagen" src="assets/imges/FotosGenerales/LogoBarberia.png" alt="Logo de la Peluquería" />
+    </a>
+    <nav id="menu">
+      <ul>
+        <li><a href="#" data-seccion="clientes">Usuarios / Clientes</a></li>
+        <li><a href="#" data-seccion="trabajadores">Trabajadores</a></li>
+        <li><a href="#" data-seccion="servicios">Servicios</a></li>
+        <li><a href="#" id="logout-btn">Cerrar Sesión</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="parallax"></div>
+    <div class="overlay">
+      <h1 id="admin-title">Panel de Administración</h1>
+    </div>
+
+    <!-- Sección de Clientes/Usuarios -->
+    <section id="seccion-clientes" class="seccion activa">
+      <h2>Gestión de Usuarios y Clientes</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <!-- CABECERA CORREGIDA: Ahora tiene 11 columnas que coinciden con el JS -->
+            <tr>
+              <th>ID Usuario</th>
+              <th>Nombre de Usuario</th>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>DNI</th>
+              <th>Dirección</th>
+              <th>Municipio</th>
+              <th>Provincia</th>
+              <th>ID Cliente</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-clientes-body">
+            <!-- Las filas se generarán aquí con JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Contenido de trabajadores -->
+    <section id="seccion-trabajadores" class="seccion">
+      <h2>Gestión de Trabajadores</h2>
+         <!-- Tabla de Trabajadores -->
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>ID Trabajador</th>
+                <th>Nombre Usuario</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>ID Especialidad</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-trabajadores-body"></tbody>
+          </table>
+        </div>
+        <button id="add-trabajador-btn" class="btn-crear" data-entity="trabajador">Añadir Trabajador</button>
+
+        <!-- Tabla de Especialidades -->
+        <h3>Especialidades</h3>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>ID Especialidad</th>
+                <th>Nombre Especialidad</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-especialidades-body"></tbody>
+          </table>
+        </div>
+        <button id="add-especialidad-btn" class="btn-crear" data-entity="especialidad">Añadir Especialidad</button>
+    </section>
+
+    <!-- Contenido de Servicios -->
+    <section id="seccion-servicios" class="seccion">
+      <h2>Gestión de Servicios</h2>
+      <!-- Tabla de Servicios -->
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID Servicio</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Duración</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-servicios-body"></tbody>
+        </table>
+      </div>
+      <button id="add-servicio-btn" class="btn-crear" data-entity="servicio">Añadir Servicio</button>
+    </section>
+  </main>
+
+  <!-- Modal Genérico -->
+  <div class="modal" id="edit-modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h3 id="modal-title"></h3>
+      <form id="edit-form">
+        <!-- Aquí inyectaremos los campos según el tipo -->
+      </form>
+    </div>
+  </div>
+
+  <script src="js/admin.js"></script>
+  <script src="js/hideHeader.js"></script>
+  <script src="js/toggleMenu.js"></script>
+  <!-- Otros scripts que necesites -->
+</body>
+</html>

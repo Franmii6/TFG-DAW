@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Configura la vista para dispositivos móviles -->
+    <link
+      rel="icon"
+      href="assets/imges/FotosGenerales/LogoBarberia.png"
+      type="image/jpeg"
+    />
+    <!-- Ícono del sitio -->
+    <title>Peluquería Barbers</title>
+
+    <link rel="stylesheet" href="styles/fonts.css" />
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="styles/login.css" />
+  </head>
+  <body>
+    <!-- Cabecera -->
+    <header>
+      <!-- Logo con enlace a la página de inicio -->
+      <a href="index.html">
+        <img
+          class="imagen"
+          src="assets/imges/FotosGenerales/LogoBarberia.png"
+          alt="Logo de la Peluquería"
+        />
+      </a>
+      <div class="menu-toggle" onclick="toggleMenu()">
+      </div>
+
+      <!-- Menú de navegación -->
+      <nav id="menu">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="pagina2.html">Equipo</a></li>
+          <li><a href="pagina3.html">Servicios</a></li>
+          <li><a href="pagina4.html">Contacto</a></li>
+          <li><a href="AcercaDe.html">Acerca de</a></li>
+          <li><a href="login.html" id="nav-login">Login</a></li>
+          <li><a href="register.html" id="nav-register">Registro</a></li>
+        </ul>
+      </nav>
+    </header>
+<main class="main-login">
+    <div class="left-login">
+        <img src="https://i.postimg.cc/YC13sX2Z/Astronaut-cuate.png" class="left-login-img" alt="astronaut image">
+    </div>
+
+    <div class="right-login">
+        <div class="card-login">
+            <h1>Login</h1>
+            <div class="textfield">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" placeholder="Email">
+            </div>
+
+            <div class="textfield">
+                <label for="contrasena">Contraseña</label>
+                <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña">
+            </div>
+
+            <button class="btn-login" onclick="login(event)">Login</button>
+            <p class="signup-link">¿No tienes una cuenta? <a href="./register.html">Regístrate aquí</a></p>
+        </div>
+    </div>
+</main>
+<!-- Pie de pagina -->
+<footer>
+    <p>
+      <a href="AcercaDe.html" class="PieDePagina"
+        >Esta es una empresa ficticia y este sitio web es un proyecto de
+        prácticas.<br />
+        © 2025 Peluquería Barbers. Todos los derechos reservados.</a
+      >
+    </p>
+  </footer>
+  <!-- Script para la autenticación de usuarios -->
+  <script src="js/app.js"></script>
+  <!-- Script esconder header -->
+  <script src="js/hideHeader.js"></script>
+  <!-- Script menu hamburguesa en pantallas moviles -->
+  <script src="js/toggleMenu.js"></script>
+</body>
+</html>

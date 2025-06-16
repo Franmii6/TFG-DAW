@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Configura la vista para dispositivos móviles -->
+    <link
+      rel="icon"
+      href="assets/imges/FotosGenerales/LogoBarberia.png"
+      type="image/jpeg"
+    />
+    <!-- Ícono de la página -->
+    <title>Peluquería Barbers</title>
+
+    <link rel="stylesheet" href="styles/fonts.css" />
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="styles/acercaDe.css" />
+  </head>
+
+  <body>
+    <!-- Encabezado con logotipo y navegación -->
+    <header>
+      <a href="portada.html">
+        <img
+          class="imagen"
+          src="assets/imges/FotosGenerales/LogoBarberia.png"
+          alt="Logo de la Peluquería"
+        />
+        <!-- Logo de la peluquería -->
+      </a>
+      <div class="menu-toggle" onclick="toggleMenu()">
+        <!-- Botón para alternar el menú en móviles -->
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+      <nav id="menu">
+        <!-- Menú de navegación -->
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="pagina2.html">Equipo</a></li>
+          <li><a href="pagina3.html">Servicios</a></li>
+          <li><a href="pagina4.html">Contacto</a></li>
+          <li><a href="AcercaDe.html">Acerca de</a></li>
+          <li><a href="login.html" id="nav-login">Login</a></li>
+          <li><a href="register.html" id="nav-register">Registro</a></li>
+        </ul>
+      </nav>
+    </header>
+    <!-- Sección principal -->
+    <main>
+      <section class="about">
+        <h1>Acerca de Nosotros</h1>
+        <p>
+          Esta es una empresa ficticia y este sitio web es un proyecto de
+          prácticas.
+        </p>
+        <p>© 2025 Peluquería Barbers. Todos los derechos reservados.</p>
+      </section>
+    </main>
+    <!-- Pie de página -->
+    <footer>
+      <p>
+        <a href="AcercaDe.html" class="PieDePagina"
+          >Esta es una empresa ficticia y este sitio web es un proyecto de
+          prácticas.<br />
+          © 2025 Peluquería Barbers. Todos los derechos reservados.</a
+        >
+        <!-- Enlace en el pie de página -->
+      </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/modalEmpleados.js"></script>
+    <script src="js/hideHeader.js"></script>
+    <script src="js/toggleMenu.js"></script>
+    <script src="js/modal.js"></script>
+  </body>
+</html>

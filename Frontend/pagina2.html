@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Configura la vista para dispositivos móviles -->
+    <link
+      rel="icon"
+      href="assets/imges/FotosGenerales/LogoBarberia.png"
+      type="image/jpeg"
+    />
+    <title>Equipo - Peluquería Barbers</title>
+
+    <link rel="stylesheet" href="styles/fonts.css" />
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="styles/equipo.css" />
+  </head>
+  <body>
+    <!-- 1) Loader común -->
+    <div id="loader-container"></div>
+
+    <!-- 2) Contenedor de todo el contenido, oculto hasta que termine el loader -->
+    <div id="contenido" style="display: none;">
+      <!-- Cabecera -->
+      <header>
+        <a href="portada.html">
+          <img
+            class="imagen"
+            src="assets/imges/FotosGenerales/LogoBarberia.png"
+            alt="Logo de la Peluquería"
+          />
+        </a>
+        <div class="menu-toggle" onclick="toggleMenu()">
+          <div></div><div></div><div></div><div></div>
+        </div>
+        <nav id="menu">
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="pagina2.html">Equipo</a></li>
+            <li><a href="pagina3.html">Servicios</a></li>
+            <li><a href="pagina4.html">Contacto</a></li>
+            <li><a href="AcercaDe.html">Acerca de</a></li>
+            <li><a href="login.html" id="nav-login">Login</a></li>
+            <li><a href="register.html" id="nav-register">Registro</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <!-- Cuerpo de la página -->
+      <main>
+        <div class="parallax"></div>
+
+        <section>
+          <h2>Conoce a nuestro equipo</h2>
+          <p>
+            En Peluquería Barbers, nuestro equipo está formado por profesionales
+            altamente capacitados que se apasionan por
+            ofrecerte el mejor servicio. Con experiencia y dedicación, estamos
+            aquí para ayudarte a lograr el estilo que buscas.
+          </p>
+        
+          <!-- AQUÍ INYECTAMOS LAS TARJETAS DINÁMICAS -->
+          <div class="container" id="equipoContainer"></div>
+        </section>
+      </main>
+
+      <!-- Pie de página -->
+      <footer>
+        <p>
+          <a href="AcercaDe.html" class="PieDePagina">
+            Esta es una empresa ficticia y este sitio web es un proyecto de
+            prácticas.<br />
+            © 2025 Peluquería Barbers. Todos los derechos reservados.
+          </a>
+        </p>
+      </footer>
+      <!-- Modal genérico de empleado -->
+      <div id="empleadoModal" class="modal" style="display:none;">
+        <div class="modal-content">
+          <span class="close-btn" onclick="closeEmployeeModal()">&times;</span>
+          <h2 id="modalName"></h2>
+          <img id="modalPhoto" src="" alt="" style="max-width:100%; height:auto;"/>
+          <p><strong>Experiencia</strong></p>
+          <p id="modalExperience"></p>
+          <p><strong>Especialidades</strong></p>
+          <ul id="modalSpecialties"></ul>
+        </div>
+    </div> <!-- /#contenido -->
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/modalEmpleados.js"></script>
+    <script src="js/hideHeader.js"></script>
+    <script src="js/toggleMenu.js"></script>
+    <script src="js/modal.js"></script>
+  </body>
+</html>

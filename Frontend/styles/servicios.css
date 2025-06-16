@@ -1,0 +1,168 @@
+/*Secciones de texto del main*/
+.section {
+    padding: 30px 30px;
+    text-align: center;
+    h2 {
+        font-size: 32px;
+        color: #333;
+        margin-bottom: 20px;
+        font-family: 'Maxlock', sans-serif;
+    }
+}
+/* Decoracion de titulos h2*/
+.h2titulos{
+    border-bottom:thin gray solid;
+    padding-bottom: 8px;
+    min-width: 450px;
+    width:  auto;
+    display:inline-block;
+   
+}
+
+/* Contenedor de servicios */
+.container {
+    justify-content: center;
+    margin-top: 30px;
+    .service {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 300px;
+        /* fotos de servicios */
+        img {
+            width: 100%;
+            max-width: 250px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        /*Texto de servicios */
+        h3 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 16px;
+            color: #666;
+        }
+    }
+    
+}
+
+/* Comentarios de clientes */
+.comentarios {
+    padding: 50px 5%;
+    background-color: #fff;
+    text-align: center;
+    h2 {
+        font-size: 32px;
+        color: #333;
+        margin-bottom: 30px;
+    }
+    .comentario {
+        display: flex;
+        align-items: center;
+        background-color: #f8f8f8;
+        border-left: 5px solid #e67e22;
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 900px;
+        width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: left;
+        flex-wrap: wrap;
+        img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-right: 20px;
+            object-fit: cover;
+            border: 3px solid #e67e22;
+        }
+        .texto {
+            flex: 1;
+            min-width: 250px;
+        }
+        p {
+            font-size: 18px;
+            color: #555;
+            margin: 5px 0;
+        }
+        .cliente {
+            font-weight: bold;
+            color: #e67e22;
+            margin-top: 10px;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .comentario {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .comentario img {
+        margin-bottom: 15px;
+        margin-right: 0;
+    }
+}
+
+/* Modal reserva */
+.modalReserva {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  inset: 0;                     /* top/right/bottom/left 0 */
+  background-color: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;                /* margen interior en móviles */
+  box-sizing: border-box;
+}
+.modalReserva-content {
+    background-color: #fff;
+  border-radius: 5px;
+  padding: 1.5rem;
+  width: 100%;                  /* ocupa todo el ancho posible */
+  max-width: 500px;             /* pero no más de 500px */
+  box-sizing: border-box;       /* padding no suma al ancho */
+  position: relative;
+  text-align: center;
+}
+.modal-content .close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.modal-content label {
+  display: block;
+  margin: 0.5rem 0;
+}
+
+/* --- estilos de los slots de hora --- */
+.timeslots {
+  margin: .5rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: .5rem;
+}
+.timeslot {
+  padding: .5rem;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  user-select: none;
+}
+.timeslot.selected {
+  background: #008db8;
+  color: #fff;
+  border-color: #008db8;
+}

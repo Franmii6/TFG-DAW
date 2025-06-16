@@ -1,0 +1,6 @@
+{
+    "require": {
+        "laravel/telescope": "^5.6",
+        "laravel/sanctum": "^4.0"
+    }
+}

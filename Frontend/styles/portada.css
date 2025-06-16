@@ -1,0 +1,202 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  /* Fondo de pantalla con imagen */
+  body {
+    height: 100vh;
+    background: url("https://http.cat/images/402.jpg") no-repeat center
+      center fixed; /* Cambia esta URL por la imagen de fondo que prefieras */
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    overflow: hidden;
+    margin: 0;
+  }
+}
+
+/* Fondo animado de partículas */
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("img/portadah/barberiaOscura.jpg") no-repeat center center
+      fixed;
+    background-size: cover;
+    animation: particleEffect 10s ease-in-out infinite;
+    filter: blur(10px);
+    z-index: -1;
+  }
+
+/* Contenedor principal */
+.hero {
+  text-align: center;
+  position: relative;
+  width: 90%;
+  max-width: 1000px;
+  padding: 50px 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  animation: slideIn 1.5s ease-out forwards;
+
+  /* Título con animación de desvanecimiento */
+  h1 {
+    font-size: 50px;
+    color: #e67e22;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 40px; /* Aquí se añade el margen inferior para separar del siguiente texto */
+    opacity: 0;
+    animation: fadeInTitle 2s ease-out forwards 0.3s;
+  }
+
+  /* Subtítulo estilizado */
+  p {
+    font-size: 20px;
+    color: #ecf0f1;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeInText 2s ease-out forwards 1s;
+  }
+
+  /* Botón de llamada a la acción */
+  .btn {
+    display: inline-block;
+    background-color: #e67e22;
+    color: #fff;
+    padding: 18px 40px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+  }
+
+  .btn:hover {
+    background-color: #d35400;
+    transform: translateY(-5px);
+  }
+
+  /* Logo con estilo retro y animación */
+  .logo {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    font-size: 36px;
+    font-weight: bold;
+    color: #e67e22;
+    letter-spacing: 5px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    animation: slideInLogo 1s ease-out forwards;
+  }
+}
+
+/* Animación para el contenedor de bienvenida */
+@keyframes slideIn {
+  from {
+    transform: translateY(-50%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Animación de fade in para el título */
+@keyframes fadeInTitle {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Animación de fade in para el texto */
+@keyframes fadeInText {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Animación para la imagen */
+@keyframes fadeInImage {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Animación del logo */
+@keyframes slideInLogo {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Efecto de partículas en movimiento */
+@keyframes particleEffect {
+  0% {
+    filter: blur(10px);
+  }
+  50% {
+    filter: blur(5px);
+  }
+  100% {
+    filter: blur(10px);
+  }
+}
+
+/* Diseño adaptativo */
+@media screen and (max-width: 768px) {
+  .hero h1 {
+    font-size: 40px;
+  }
+
+  .hero p {
+    font-size: 18px;
+  }
+
+  .btn {
+    font-size: 16px;
+    padding: 15px 30px;
+  }
+
+  .hero img {
+    width: 90%;
+    height: auto;
+  }
+
+  .logo {
+    font-size: 28px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .hero p {
+    font-size: 16px;
+  }
+
+  .hero img {
+    width: 100%;
+  }
+
+  .logo {
+    font-size: 24px;
+  }
+}

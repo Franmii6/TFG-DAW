@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Configura la vista para dispositivos móviles -->
+    <link
+      rel="icon"
+      href="assets/imges/FotosGenerales/LogoBarberia.png"
+      type="image/jpeg"
+    />
+    <!-- Ícono del sitio -->
+    <title>Peluquería Barbers</title>
+
+    <link rel="stylesheet" href="styles/fonts.css" />
+    <link rel="stylesheet" href="styles/styles.css" />
+    <link rel="stylesheet" href="styles/index.css" />
+  </head>
+  <body>
+    <div id="loader-container"></div>
+    <div id="contenido" style="display: none;">
+      <!-- Cabecera -->
+      <header>
+        <!-- Logo con enlace a la página de inicio -->
+        <a href="index.html">
+          <img
+            class="imagen"
+            src="assets/imges/FotosGenerales/LogoBarberia.png"
+            alt="Logo de la Peluquería"
+          />
+        </a>
+        <div class="menu-toggle" onclick="toggleMenu()">
+        </div>
+
+        <!-- Menú de navegación -->
+        <nav id="menu">
+          <ul>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="pagina2.html">Equipo</a></li>
+            <li><a href="pagina3.html">Servicios</a></li>
+            <li><a href="pagina4.html">Contacto</a></li>
+            <li><a href="AcercaDe.html">Acerca de</a></li>
+            <li><a href="login.html" id="nav-login">Login</a></li>
+            <li><a href="register.html" id="nav-register">Register</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <!-- Cuerpo de la pagina-->
+      <main>
+        <div class="parallax"></div>
+        <section id="inicio" class="sectionIndex">
+          <div class="contenido">
+            <div class="textoBarberia">
+              <h2>Bienvenidos a Barbers</h2>
+              <p>
+                En Peluquería Barbers, creemos que un buen corte de cabello no
+                solo cambia tu apariencia, sino que también eleva tu confianza y
+                te ayuda a sentirte como mejor te ves. Nuestra barbería es un
+                lugar donde la tradición se encuentra con las últimas tendencias,
+                ofreciendo una experiencia única de estilo y cuidado personal.
+              </p>
+              <p>
+                Ven y disfruta de un servicio excepcional. ¡Haz tu cita y
+                experimenta lo mejor del cuidado masculino en un solo lugar!
+              </p>
+            </div>
+            <div>
+              <img src="assets/imges/inicio/barberia.jpg" alt="Imagen de Barbería" />
+            </div>
+          </div>
+        </section>
+      </main>
+      <!-- Pie de pagina -->
+      <footer>
+        <p>
+          <a href="AcercaDe.html" class="PieDePagina"
+            >Esta es una empresa ficticia y este sitio web es un proyecto de
+            prácticas.<br />
+            © 2025 Peluquería Barbers. Todos los derechos reservados.</a
+          >
+        </p>
+      </footer>
+    </div>
+    <!-- Script para el funcionamiento de la aplicación-->
+    <script src="js/app.js"></script>
+    <!-- Script esconder header -->  
+    <script src="js/hideHeader.js"></script>
+    <!-- Script menu hamburguesa en pantallas moviles -->
+    <script src="js/toggleMenu.js"></script>
+  </body>
+</html>

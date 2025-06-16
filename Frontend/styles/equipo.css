@@ -1,0 +1,68 @@
+/*Secciones de texto del main*/
+section {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 50px 30px;
+    background-color: #f8f8f8;
+    gap: 20px;
+    flex-wrap: wrap;
+    h2 {
+        font-size: 32px;
+        color: #333;
+        margin-bottom: 20px;
+        text-align: center;
+        border-bottom: thin gray solid;
+        padding-bottom: 8px;
+        display: inline-block;
+        margin-left: auto;
+        margin-right: auto;
+        animation: fadeIn 2s forwards;
+        font-family: 'Maxlock', sans-serif;
+    }
+    p {
+        font-size: 18px;
+        color: #666;
+        margin-bottom: 30px;
+        width: 100%;
+        text-align: center;
+        animation: fadeIn 2s forwards;
+    }
+}
+
+        /*Seccion del equipo  de la peluqueria*/
+        .container {
+            justify-content: space-around;
+            width: 100%;
+            animation: fadeIn 2s forwards;
+        }
+        /*Seccion de miembros  de la peluqueria*/
+        .team-member {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 250px;
+            transition: transform 0.3s ease;
+            img {
+                width: 100%;
+                border-radius: 50%;
+                max-width: 150px;
+                margin-bottom: 15px;
+            }
+            h3 {
+                font-size: 24px;
+                color: #333;
+                margin-bottom: 10px;
+            }
+            p {
+                font-size: 16px;
+                color: #666;
+            }
+        }
+
+        .team-member:hover {
+            transform: scale(1.05);
+        }
