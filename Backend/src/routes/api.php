@@ -62,7 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('appointments',                          [AppointmentController::class, 'add']);
     Route::get('appointments',                           [AppointmentController::class, 'show']);
     Route::get('appointments/{id}/{withServicios}',      [AppointmentController::class, 'getAppointment'])
-            ->where('withServicios', 'servicios');
+            ->where('withServicios', 'servicios'); //Esto especifica que se refiere a servicios, porque interfería con la ruta id/comentarios
     Route::put('appointments/{id}',                      [AppointmentController::class, 'update']);
     Route::delete('appointments/{id}',                   [AppointmentController::class, 'delete']);
 

@@ -1,6 +1,11 @@
 // FUNCIÓN DE REGISTRO
-async function register(event) { //Asyn function para manejar la promesa de fetch
+async function register(event) { //Asyn function para manejar la promesa de fetch, usar await y mejorar la legibilidad del código
   event.preventDefault(); //Prevenir que se recargue la página
+
+  var btn = event.target.querySelector('button[type="submit"]'); // Botón de envío
+  var orig = btn.innerText; // 
+  btn.disabled = true;
+  btn.innerText = 'Registrando…';
   //Guardar los valores del formulario
 
   var nombre                = document.getElementById('nombre').value;
@@ -42,11 +47,20 @@ async function register(event) { //Asyn function para manejar la promesa de fetc
     console.error('Error en el registro:', err); //Mostrado por consola
     alert('Error de red o servidor. Revisa la consola.'); //Hago un alert para decirle al usuario que revise la consola
   }
+  finally {
+    btn.disabled = false;
+    btn.innerText = orig;
+  }
 }
 
 // FUNCIÓN DE LOGIN
 async function login(event) {
   event.preventDefault(); //Evito que se recargue la página
+
+  var btn = event.target.querySelector('button[type="submit"]'); // Botón de envío
+  var orig = btn.innerText; // 
+  btn.disabled = true;
+  btn.innerText = 'Registrando…';
   
   //Guardo en una variable el email y la contraseña
   var email      = document.getElementById('email').value;
@@ -263,7 +277,7 @@ function mostrarAlertaContrato() {
 /**
  * Carga y muestra las últimas citas del cliente en la sección de perfil.
  * Determina si mostrar un botón para 'Evaluar' o 'Ver opinión' según si ya hay un comentario.
- * @param {boolean} mostrarCitasCanceladas - Si es true, las citas con estado 'cancelada' también se mostrarán. Por defecto es false.
+ * Si es true, las citas con estado 'cancelada' también se mostrarán. Por defecto es false.
  */
 async function cargarUltimasCitasPerfil(mostrarCitasCanceladas = false) {
   const container = document.getElementById('listaCitas');
@@ -574,7 +588,6 @@ function inicializarModalComentario() {
     if (e.target.id === 'modalComentario') cerrarModalComentario();
   });
 }
-
 
 // --------------------------------------------------
 // CARGAR COMENTARIOS RECIENTES (para pagina3.html)
@@ -936,7 +949,7 @@ async function onClickEliminarOpinion() {
 
 
 //Variable controladora para usar el loader o no
-const USAR_LOADER = false;
+const USAR_LOADER = true;
 
 document.addEventListener('DOMContentLoaded', async () => {
   const loader    = document.getElementById('loader-container');

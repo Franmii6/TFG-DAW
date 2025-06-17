@@ -2,7 +2,21 @@ networks:
     laravel:
         driver: bridge
 
+volumes:
+  vendor-data:
+
 services: 
+    vendor:
+        build:
+          context: .
+          dockerfile: Dockerfile
+          target: vendor
+        volumes:
+          - vendor-data:/var/www/html/vendor
+        # Mantenerse vivo
+        command: ["tail", "-f", "/dev/null"]
+        networks:
+          - laravel
     nginx:
         image: nginx:alpine
         container_name: nginx
@@ -29,6 +43,7 @@ services:
             - 4306:3306
         volumes: 
             - ./mysql:/var/lib/mysql
+            - vendor-data:/var/www/html/vendor:delegated
         environment: 
             MYSQL_DATABASE: laravel_docker
             MYSQL_USER: user

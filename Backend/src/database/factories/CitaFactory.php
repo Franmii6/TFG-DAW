@@ -22,24 +22,24 @@ class CitaFactory extends Factory
      */
     public function definition(): array
     {
-        $clientes = Cliente::pluck('id')->toArray();
-        $cliente_id = fake()->randomElement($clientes);
-        $empleados = Empleado::pluck('id')->toArray();
-        $empleado_id = fake()->randomElement($empleados);
-       /*  $contratos = Contrato::pluck('id')->toArray();
-        $contrato_id = fake()->randomElement($contratos);
+        $clientes = Cliente::pluck('id')->toArray(); // Guardo en una variable, un array con los id de los clientes
+        $cliente_id = fake()->randomElement($clientes); // Selecciona un ID de cliente aleatorio del array `$clientes`
+        $empleados = Empleado::pluck('id')->toArray(); // Guardo en una variable, un array con los id de los empleados
+        $empleado_id = fake()->randomElement($empleados); // Selecciona un ID de empleado aleatorio del array `$empleados`
+       /*  $contratos = Contrato::pluck('id')->toArray(); // Guardo en una variable, un array con los id de los contratos
+        $contrato_id = fake()->randomElement($contratos); // Selecciona un ID de contrato aleatorio del array `$contratos` 
         $contrato_id = Contrato::where('cliente_id', '=', strval(array_search($cliente_id, $contratos, true))); */
         /* $contrato_id = Contrato::find($cliente_id)->id; */ /* Al haber solo un contrato por cliente tienen el mismo id */
-       /*  $contrato = Contrato::where('cliente_id', '=', $cliente_id)->get();
+       /*  $contrato = Contrato::where('cliente_id', '=', $cliente_id)->get(); 
         $contrato_Id = Contrato::where('cliente_id', '=', $cliente_id)->value('id'); */
 
         return [
-            'cliente_id' => $cliente_id,
-            'empleado_id' => $empleado_id,
-            'contrato_id' => $cliente_id,
-            'fecha' => fake()->unique()->dateTime(),
-            'estado' => fake()->randomElement(['pendiente', 'cancelado', 'completado']),
-            'numero_de_atenciones' => 1,
+            'cliente_id' => $cliente_id, // Asigna el ID del cliente aleatorio
+            'empleado_id' => $empleado_id, // Asigna el ID del empleado aleatorio
+            'contrato_id' => $cliente_id, // Asigna el ID del contrato (mismo que el cliente)
+            'fecha' => fake()->unique()->dateTime(), // Asigna una fecha y hora aleatoria
+            'estado' => fake()->randomElement(['pendiente', 'cancelado', 'completado']), // Asigna un estado aleatorio
+            'numero_de_atenciones' => 0,
         ];
     }
 }

@@ -138,12 +138,6 @@ class AuthController extends Controller
             ], 422);
         }
 
-        //$user = Usuario::where('email', $request->email)->first();
-
-        /*if (!$user || $request->contrasena != $user->contrasena) {
-            return response()->json(['message' => 'Credenciales incorrectas'], 401);
-        }*/
-
         // 2) Intentar autenticar con Auth::attempt
         // Laravel espera la clave 'password', así que mapeamos:
         $credentials = [

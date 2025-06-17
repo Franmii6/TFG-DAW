@@ -71,6 +71,10 @@ class EmployeeSpecialtyController extends Controller
 
     /**
      * Elimina una especialidad de un empleado
+     * @param int $empleadoId
+     * @param int $especialidadId
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
     public function delete($empleadoId, $especialidadId)
     {

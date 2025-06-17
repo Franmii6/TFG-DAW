@@ -23,7 +23,9 @@
         <li><a href="#" data-seccion="clientes">Usuarios / Clientes</a></li>
         <li><a href="#" data-seccion="trabajadores">Trabajadores</a></li>
         <li><a href="#" data-seccion="servicios">Servicios</a></li>
-        <li><a href="#" id="logout-btn">Cerrar Sesión</a></li>
+        <li><a href="#" data-seccion="citas">Citas</a></li>
+        <li><a href="#" data-seccion="comentarios">Comentarios</a></li>
+        <li><a href="#" id="logout-btn" onclick="logout()">Cerrar Sesión</a></li>
       </ul>
     </nav>
   </header>
@@ -40,7 +42,6 @@
       <div class="table-responsive">
         <table>
           <thead>
-            <!-- CABECERA CORREGIDA: Ahora tiene 11 columnas que coinciden con el JS -->
             <tr>
               <th>ID Usuario</th>
               <th>Nombre de Usuario</th>
@@ -119,6 +120,45 @@
         </table>
       </div>
       <button id="add-servicio-btn" class="btn-crear" data-entity="servicio">Añadir Servicio</button>
+    </section>
+
+    <!-- Sección de Citas -->
+    <section id="seccion-citas" class="seccion">
+      <h2>Gestión de Citas</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID Cita</th>
+              <th>Cliente</th>
+              <th>Trabajador</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-citas-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Sección de Comentarios -->
+    <section id="seccion-comentarios" class="seccion">
+      <h2>Gestión de Comentarios</h2>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>ID Comentario</th>
+              <th>ID Cita</th>
+              <th>Texto</th>
+              <th>Creado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-comentarios-body"></tbody>
+        </table>
+      </div>
     </section>
   </main>
 

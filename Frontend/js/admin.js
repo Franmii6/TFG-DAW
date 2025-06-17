@@ -26,29 +26,57 @@ function setupEventListeners() {
   });
 }
 
-async function cargarDatos() {
+// Util para fetch seguro que devuelve [] en 404/204 o error de red
+async function safeFetchArray(url, headers) {
   try {
-    const [resU, resC, resT, resE, resS, resEE] = await Promise.all([
-      fetch(`${API_URL}/usuarios`, { headers: { 'Authorization': `Bearer ${TOKEN}` } }),
-      fetch(`${API_URL}/customers`, { headers: { 'Authorization': `Bearer ${TOKEN}` } }),
-      fetch(`${API_URL}/employees`, { headers: { 'Authorization': `Bearer ${TOKEN}` } }),
-      fetch(`${API_URL}/specialties`, { headers: { 'Authorization': `Bearer ${TOKEN}` } }),
-      fetch(`${API_URL}/services`, { headers: { 'Authorization': `Bearer ${TOKEN}` } }),
-      fetch(`${API_URL}/employees/{employee}/specialties`, { headers: { 'Authorization': `Bearer ${TOKEN}` } }),
-    ]);
-    if (!resU.ok || !resC.ok || !resT.ok || !resE.ok || !resS.ok || !resEE.ok) {
-      throw new Error('Error cargando datos de API');
+    const res = await fetch(url, { method:'GET', headers });
+    if (res.ok) {
+      return await res.json();
+    } else if (res.status === 404 || res.status === 204) {
+      return [];
+    } else {
+      console.error(`Error ${res.status} cargando ${url}`);
+      return [];
     }
-    cacheDeDatos.usuarios = await resU.json();
-    cacheDeDatos.clientes = await resC.json();
-    cacheDeDatos.trabajadores = await resT.json();
-    cacheDeDatos.especialidades = await resE.json();
-    cacheDeDatos.servicios = await resS.json();
-    cacheDeDatos.empleadoEspecialidades = await resEE.json();
   } catch (err) {
-    console.error(err);
-    alert('Error al cargar datos: ' + err.message);
+    console.error(`Error de red en ${url}:`, err);
+    return [];
   }
+}
+
+async function cargarDatos() {
+  const headers = {
+    'Authorization': `Bearer ${TOKEN}`,
+    'Accept':        'application/json'
+  };
+
+  // Todas las colecciones en paralelo, cada una con safeFetchArray
+  const [
+    usuarios,
+    clientes,
+    trabajadores,
+    especialidades,
+    servicios,
+    citas,
+    comentarios
+  ] = await Promise.all([
+    safeFetchArray(`${API_URL}/usuarios`, headers),
+    safeFetchArray(`${API_URL}/customers`, headers),
+    safeFetchArray(`${API_URL}/employees`, headers),
+    safeFetchArray(`${API_URL}/specialties`, headers),
+    safeFetchArray(`${API_URL}/services`, headers),
+    safeFetchArray(`${API_URL}/appointments`, headers),
+    safeFetchArray(`${API_URL}/comentarios/recientes`, headers),
+  ]);
+
+  // Asignamos al caché
+  cacheDeDatos.usuarios       = usuarios;
+  cacheDeDatos.clientes      = clientes;
+  cacheDeDatos.trabajadores  = trabajadores;
+  cacheDeDatos.especialidades= especialidades;
+  cacheDeDatos.servicios     = servicios;
+  cacheDeDatos.citas         = citas;
+  cacheDeDatos.comentarios   = comentarios;
 }
 
 function mostrarSeccion(idSeccion) {
@@ -56,13 +84,23 @@ function mostrarSeccion(idSeccion) {
   const sec = document.getElementById(`seccion-${idSeccion}`);
   if (!sec) return;
   sec.classList.add('activa');
-  document.getElementById('admin-title').innerText = `Panel de Administración - ${idSeccion.charAt(0).toUpperCase() + idSeccion.slice(1)}`;
-  if (idSeccion === 'clientes') renderClientes();
-  else if (idSeccion === 'trabajadores') {
-    renderClientes();
-    renderTrabajadores();
-    renderEspecialidades();
-  } else if (idSeccion === 'servicios') renderServicios();
+  document.getElementById('admin-title').innerText =
+    `Panel de Administración - ${idSeccion.charAt(0).toUpperCase()+idSeccion.slice(1)}`;
+
+  switch(idSeccion) {
+    case 'clientes':
+      renderClientes(); break;
+    case 'trabajadores':
+      renderTrabajadores();
+      renderEspecialidades();
+      break;
+    case 'servicios':
+      renderServicios(); break;
+    case 'citas':
+      renderCitas(); break;
+    case 'comentarios':
+      renderComentarios(); break;
+  }
 }
 
 function renderClientes() {
@@ -84,9 +122,10 @@ function renderClientes() {
         <td>${c?.direccion.replace(/\n/g,'<br>')||'No Registrado'}</td>
         <td>${c?.municipio||'No Registrado'}</td>
         <td>${c?.provincia||'No Registrado'}</td>
+        <td>${c?.id||'No Registrado'}</td>
         <td class="acciones">
-          <button data-action="edit" data-entity="cliente" data-id="${u.id}">Editar</button>
-          <button data-action="delete" data-entity="cliente" data-id="${u.id}">Eliminar</button>
+          <button data-action="edit" data-entity="cliente" data-id="${u.id}" class="btn-editar">Editar</button>
+          <button data-action="delete" data-entity="cliente" data-id="${u.id}" class="btn-eliminar">Eliminar</button>
         </td>
       </tr>`;
   }).join('') : '<tr><td colspan="10">No hay usuarios/clientes.</td></tr>';
@@ -94,23 +133,28 @@ function renderClientes() {
 }
 
 function renderTrabajadores() {
-  const { trabajadores, empleadoEspecialidades } = cacheDeDatos;
+  const { trabajadores } = cacheDeDatos;
   const body = document.getElementById('tabla-trabajadores-body');
-  body.innerHTML = trabajadores.map(t => {
-    const ids = empleadoEspecialidades.filter(pe => pe.empleado_id===t.id).map(pe=>pe.especialidad_id).join(', ');
-    return `
-      <tr>
-        <td>${t.id}</td>
-        <td>${t.nombreUsuario}</td>
-        <td>${t.nombre}</td>
-        <td>${t.email}</td>
-        <td>${ids||'Sin Especialidad'}</td>
-        <td>
-          <button data-action="edit" data-entity="trabajador" data-id="${t.id}">Editar</button>
-          <button data-action="delete" data-entity="trabajador" data-id="${t.id}">Eliminar</button>
-        </td>
-      </tr>`;
-  }).join('');
+  body.innerHTML = trabajadores.length
+    ? trabajadores.map(t => {
+        const usuario = t.usuario; // viene eager-loaded
+        const ids = (t.especialidades||[])
+          .map(e => e.id).join(', ');
+        return `
+          <tr>
+            <td>${t.id}</td>
+            <td>${usuario.nombreUsuario}</td>
+            <td>${usuario.nombre}</td>
+            <td>${usuario.email}</td>
+            <td>${ids || 'Sin Especialidad'}</td>
+            <td class="acciones">
+              <button data-action="edit" data-entity="trabajador" data-id="${t.id}" class="btn-editar">Editar</button>
+              <button data-action="delete" data-entity="trabajador" data-id="${t.id}" class="btn-eliminar">Eliminar</button>
+            </td>
+          </tr>
+        `;
+      }).join('')
+    : '<tr><td colspan="6">No hay trabajadores.</td></tr>';
   delegateTableActions(body);
 }
 
@@ -122,8 +166,8 @@ function renderEspecialidades() {
       <td>${e.id}</td>
       <td>${e.nombre}</td>
       <td>
-        <button data-action="edit" data-entity="especialidad" data-id="${e.id}">Editar</button>
-        <button data-action="delete" data-entity="especialidad" data-id="${e.id}">Eliminar</button>
+        <button data-action="edit" data-entity="especialidad" data-id="${e.id}" class="btn-editar">Editar</button>
+        <button data-action="delete" data-entity="especialidad" data-id="${e.id}" class="btn-eliminar">Eliminar</button>
       </td>
     </tr>`).join('');
   delegateTableActions(body);
@@ -139,18 +183,96 @@ function renderServicios() {
       <td>${s.precio}</td>
       <td>${s.duracion}</td>
       <td>
-        <button data-action="edit" data-entity="servicio" data-id="${s.id}">Editar</button>
-        <button data-action="delete" data-entity="servicio" data-id="${s.id}">Eliminar</button>
+        <button data-action="edit" data-entity="servicio" data-id="${s.id}" class="btn-editar">Editar</button>
+        <button data-action="delete" data-entity="servicio" data-id="${s.id}" class="btn-eliminar">Eliminar</button>
       </td>
     </tr>`).join('');
   delegateTableActions(body);
 }
 
+function renderCitas() {
+  const { citas } = cacheDeDatos;
+  const body = document.getElementById('tabla-citas-body');
+  if (!citas.length) {
+    body.innerHTML = `
+      <tr>
+        <td colspan="6" class="empty">No hay citas registradas.</td>
+      </tr>`;
+    return;
+  }
+  body.innerHTML = citas.map(a => `
+    <tr>
+      <td>${a.id}</td>
+      <td>${a.customer_id||a.cliente_id}</td>
+      <td>${a.employee_id||a.trabajador_id}</td>
+      <td>${a.fecha||a.date||a.created_at}</td>
+      <td>${a.hora||''}</td>
+      <td class="acciones">
+        <button
+          class="btn-eliminar"
+          onclick="eliminarCita(${a.id})">
+          Eliminar
+        </button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderComentarios() {
+  const { comentarios } = cacheDeDatos;
+  const body = document.getElementById('tabla-comentarios-body');
+  if (!comentarios.length) {
+    body.innerHTML = `
+      <tr>
+        <td colspan="5" class="empty">No hay comentarios.</td>
+      </tr>`;
+    return;
+  }
+  body.innerHTML = comentarios.map(c => `
+    <tr>
+      <td>${c.id}</td>
+      <td>${c.appointment_id||c.cita_id}</td>
+      <td>${c.texto||c.comentario||c.contenido}</td>
+      <td>${c.created_at}</td>
+      <td class="acciones">
+        <button
+          class="btn-eliminar"
+          onclick="eliminarComentario(${c.appointment_id||c.cita_id})">
+          Eliminar
+        </button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// Funciones de eliminación específicas
+async function eliminarCita(id) {
+  if (!confirm(`¿Eliminar cita #${id}?`)) return;
+  await fetch(`${API_URL}/appointments/${id}`, {
+    method:'DELETE',
+    headers:{ 'Authorization':`Bearer ${TOKEN}` }
+  });
+  await cargarDatos();
+  mostrarSeccion('citas');
+}
+
+async function eliminarComentario(citaId) {
+  if (!confirm(`¿Eliminar comentario de la cita #${citaId}?`)) return;
+  await fetch(`${API_URL}/appointments/${citaId}/comentarios`, {
+    method:'DELETE',
+    headers:{ 'Authorization':`Bearer ${TOKEN}` }
+  });
+  await cargarDatos();
+  mostrarSeccion('comentarios');
+}
+
+
+
 function delegateTableActions(tbody) {
   tbody.querySelectorAll('button').forEach(btn => {
     const { action, entity, id } = btn.dataset;
-    if (action==='edit') btn.onclick = () => abrirModalEdicion(entity, id);
-    else if (action==='delete') btn.onclick = () => eliminarEntidad(entity, id);
+    if (action==='edit')   btn.onclick = () => abrirModalEdicion(entity, id);
+    if (action==='delete') btn.onclick = () => eliminarEntidad(entity, id);
   });
 }
 
@@ -241,15 +363,34 @@ async function eliminarEntidad(entity, id) {
   mostrarSeccion(entity==='cliente'?'clientes':entity+'s');
 }
 
-async function logout() {
-  await fetch(`${API_URL}/logout`,{method:'POST',headers:{'Authorization':`Bearer ${TOKEN}`}});
-  localStorage.clear(); window.location.href='login.html';
+// FUNCIÓN LOGOUT
+async function logout() { //Nuevamente utilizo una función async para poder usar await y manejar la promesa de fetch
+  var token = localStorage.getItem('token'); //Obtengo el token guardado al inciar sesión
+  try {
+    await fetch('http://localhost:8001/api/logout', { //Hago la petición al servidor a la ruta logout para cerrar sesión
+      method: 'POST', //Método POST
+      headers: {
+        'Authorization': 'Bearer ' + token, //Mando el token de autenticación en el encabezado de la petición
+        'Accept':        'application/json' //Accept para recibir la respuesta en formato JSON
+      }
+    });
+  } catch (err) { //Capturo el error si lo hubiese
+    console.error('Error en logout:', err); //Lo muestro por consola
+  }
+
+  localStorage.removeItem('token'); //Elimino el token de localStorage
+  localStorage.removeItem('token_time'); //Elimino el token_time de localStorage
+  alert('¡Hasta luego!'); //Muestro un mensaje de éxito
+  window.location.href = 'login.html'; //Redirijo a la página de login
 }
 
-// Init
-
-document.addEventListener('DOMContentLoaded', async ()=>{
-  if(!TOKEN){ alert('Login requerido'); window.location.href='login.html'; return; }
+// Inicialización
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!TOKEN) {
+    alert('Login requerido');
+    window.location.href = 'login.html';
+    return;
+  }
   setupEventListeners();
   await cargarDatos();
   mostrarSeccion('clientes');
