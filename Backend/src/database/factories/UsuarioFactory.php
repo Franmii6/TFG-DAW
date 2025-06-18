@@ -25,7 +25,6 @@ class UsuarioFactory extends Factory
             'contrasena' => fake()->password(),
             'nombre' => fake()->name(),
             'nombreUsuario' => fake()->unique()->name(),
-            'remember_token' => Str::random(10),
         ];
     }
 }
