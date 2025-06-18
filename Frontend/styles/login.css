@@ -1,118 +1,263 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+/* register.css */
+
+/* ——————————————————————————————————————— */
+/* 1) Reset y contenedor principal */
+/* ——————————————————————————————————————— */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
 body {
-    margin: 0;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  position: relative;
+  /* Reserva espacio si tienes header fijo y footer:
+     ajusta 120px según la altura real */
+  min-height: calc(100vh - 120px);
+  overflow: hidden;
+}
+
+/* ——————————————————————————————————————— */
+/* 2) Parallax: cubre toda la ventana como fondo */
+/* ——————————————————————————————————————— */
+.parallax {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100vh;
+  /* Reemplaza la URL si tu ruta es distinta */
+  background-image: url("../assets/imges/barberia-vigo.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -2;
+}
+
+/* ——————————————————————————————————————— */
+/* 3) Formulario centrado con “vidrio esmerilado” */
+/* ——————————————————————————————————————— */
+.form_wrapper {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  /* Frosted glass */
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  /* Dimensiones y estilo */
+  width: 400px;
+  max-width: 90%;
+  padding: 25px;
+  border-radius: 8px;
+  border-top: 5px solid #f5ba1a;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  /* Animación de entrada */
+  opacity: 0;
+  animation: expand 0.8s 0.6s ease-out forwards;
+  z-index: 1;
+}
+
+/* ——————————————————————————————————————— */
+/* 4) Espacio entre footer y contenido */
+/* ——————————————————————————————————————— */
+footer {
+  margin-top: 50px;
+}
+
+/* ——————————————————————————————————————— */
+/* 5) Animaciones */
+/* ——————————————————————————————————————— */
+@keyframes expand {
+  0%   { transform: scaleY(0);    opacity: 0; }
+  50%  { transform: scaleY(1.2);               }
+  100% { transform: scaleY(1);    opacity: 1; }
+}
+
+@keyframes bounce {
+  0%   { transform: translateY(-25px); opacity: 0; }
+  100% { transform: translateY(0);       opacity: 1; }
+}
+
+/* ——————————————————————————————————————— */
+/* 6) Tipografía y títulos */
+/* ——————————————————————————————————————— */
+body, input, select, textarea, button {
+  font-family: "Maxlock", "Blenda-script", sans-serif;
+}
+
+.title_container h2 {
+  font-size: 1.5em;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* ——————————————————————————————————————— */
+/* 7) Estilos de filas/columnas */
+/* ——————————————————————————————————————— */
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.row {
+  margin: 10px -15px;
+}
+
+.row > div {
+  padding: 0 15px;
+}
+
+.col_half {
+  width: 50%;
+  float: left;
+}
+
+@media (max-width: 768px) {
+  .col_half {
+    width: 100%;
+    float: none;
     padding: 0;
-    font-family: 'Noto Sans', sans-serif;
+  }
 }
 
-    body * { box-sizing: border-box; }
-
-.main-login {
-    width: 100vw;
-    height: 100vh;
-    background: #201b2c;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* ——————————————————————————————————————— */
+/* 8) Inputs, selects, botones, checkbox/radio */
+/* ——————————————————————————————————————— */
+.input_field {
+  position: relative;
+  margin-bottom: 20px;
+  animation: bounce 0.6s ease-out;
 }
 
-.left-login {
-    width: 50vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.input_field > span {
+  position: absolute;
+  left: 0; top: 0;
+  width: 30px; height: 100%;
+  border-right: 1px solid #ccc;
+  text-align: center; color: #333;
 }
 
-    .left-login > h1 { color: #77ffc0; }
-
-.left-login-img {
-    width: 35vw;
+.input_field input {
+  width: 100%;
+  padding: 8px 10px 9px 35px;
+  height: 35px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: all 0.3s ease-in-out;
 }
 
-.right-login {
-    width: 50vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.input_field input:hover {
+  background: #fafafa;
 }
 
-.card-login {
-    width: 60%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding: 30px 35px;
-    background: #2f2841;
-    border-radius: 20px;
-    box-shadow: 0px 10px 40px #00000056;
+.input_field input:focus {
+  border-color: #f5ba1a;
+  box-shadow: 0 0 2px 1px rgba(255,169,0,0.5);
+  background: #fafafa;
 }
 
-    .card-login > h1 {
-        color: #00ff88;
-        font-weight: 800;
-        margin: 0;
-    }
-
-.textfield {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    margin: 10px 0;
+input[type="submit"] {
+  width: 100%;
+  height: 35px;
+  background: #f5ba1a;
+  border: none;
+  color: #fff;
+  font-size: 1.1em;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s ease-in-out;
 }
 
-    .textfield > input {
-        width: 100%;
-        border: none;
-        border-radius: 10px;
-        padding: 15px;
-        background: #514869;
-        color: #f0ffffde;
-        font-size: 12px;
-        box-shadow: 0px 10px 40px #00000056;
-        outline: none;
-        box-sizing: border-box;
-    }
-
-        .textfield > input::placeholder { color: #f0ffff94; }
-
-    .textfield > label {
-        color: #f0ffffde;
-        margin-bottom: 10px;
-    }
-
-.btn-login {
-    width: 100%;
-    padding: 16px 0;
-    margin: 25px;
-    border: none;
-    text-transform: uppercase;
-    border-radius: 8px;
-    outline: none;
-    font-weight: 800;
-    letter-spacing: 3px;
-    color: #2b134b;
-    background: #00ff88;
-    cursor: pointer;
-    box-shadow: 0px 10px 40px -12px #00ff8052;
+input[type="submit"]:hover {
+  background: #e1a70a;
 }
 
-@media only screen and (max-width: 950px) {
-    .card-login { width: 85%;}
+/* Checkbox personalizado */
+.checkbox_option input { /* oculta input real */ 
+  position: absolute; width:1px; height:1px; overflow:hidden;
+}
+.checkbox_option label {
+  position: relative; margin-right: 1em; padding-left: 1.2em;
+  cursor: pointer;
+}
+.checkbox_option label::before {
+  content: "";
+  position: absolute; left: 0; top: 0.1em;
+  width: 0.8em; height: 0.8em; border:2px solid #ccc;
+  background-clip: content-box;
+  transition: all 0.2s;
+}
+.checkbox_option input:checked + label::before {
+  border-color: #000;
+  background: #000;
 }
 
-@media only screen and (max-width: 600px) {
-    .main-login { flex-direction: column; }
-    .left-login { width: 100%; height: auto; }
-        .left-login > h1 { display: none; }
+/* Radio personalizado */
+.radio_option input {
+  position: absolute; width:1px; height:1px; overflow:hidden;
+}
+.radio_option label {
+  position: relative; margin-right: 1em; padding-left: 1.2em;
+  cursor: pointer;
+}
+.radio_option label::before {
+  content: "";
+  position: absolute; left: 0; top: 0.1em;
+  width: 0.8em; height: 0.8em; border:2px solid #ccc;
+  border-radius: 50%;
+  background-clip: content-box;
+  transition: all 0.2s;
+}
+.radio_option input:checked + label::before {
+  border-color: #000;
+  background: #000;
+}
 
-    .right-login { width: 100%; height: auto; }
-    .left-login-img { width: 50vw; }
-    .card-login { width: 90%; }
+/* Select personalizado */
+.select_option {
+  position: relative; width: 100%; margin-bottom: 20px;
+}
+.select_option select {
+  width: 100%; height: 35px; padding: 0 15px;
+  border:1px solid #ccc; background: #fff; appearance: none;
+  cursor: pointer; transition: all 0.2s ease;
+}
+.select_arrow {
+  position: absolute;
+  top: calc(50% - 4px); right: 15px;
+  width: 0; height: 0;
+  border-width: 8px 5px 0 5px;
+  border-style: solid;
+  border-color: #7b7b7b transparent transparent transparent;
+  pointer-events: none;
+}
+.select_option select:hover + .select_arrow,
+.select_option select:focus + .select_arrow {
+  border-top-color: #000;
+}
+
+/* Pie de crédito interno (si lo usas) */
+.credit {
+  text-align: center; padding: 15px; color: #f5ba1a;
+}
+.credit a {
+  color: #e1a70a;
+  text-decoration: none;
+}
+.credit a:hover {
+  text-decoration: underline;
+}
+
+/* ——————————————————————————————————————— */
+/* 9) Móvil: ajuste padding del form */
+/* ——————————————————————————————————————— */
+@media (max-width: 600px) {
+  .form_wrapper {
+    padding: 20px;
+  }
 }

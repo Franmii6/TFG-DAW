@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('contrasena');
             $table->string('nombre');
             $table->string('nombreUsuario');//->default('nombreusuario');
-            $table->rememberToken();
             $table->timestamps();
         });
     }

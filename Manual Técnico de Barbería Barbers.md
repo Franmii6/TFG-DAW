@@ -1,77 +1,72 @@
 # Manual Técnico de Barbería Barbers
 
-**Versión:** 1.0  
-**Autor:** Francisco Miguel Rodríguez Bras / Seyte SL  
+**Versión:** 1.0
+**Autor:** Francisco Miguel Rodríguez Bras / Seyte SL
 **Fecha:** 18 de junio de 2025
 
 ---
 
 ## Índice
 
-- [Manual Técnico de Barbería Barbers](#manual-técnico-de-barbería-barbers)
-  - [Índice](#índice)
-  - [Visión general del sistema](#visión-general-del-sistema)
-  - [Tecnologías empleadas y requisitos](#tecnologías-empleadas-y-requisitos)
-  - [Modelo de datos?](#modelo-de-datos)
-  - [Instalación](#instalación)
-    - [Preparar carpeta de proyecto](#preparar-carpeta-de-proyecto)
-  - [Clonar repositorio](#clonar-repositorio)
-  - [Estructura de carpetas](#estructura-de-carpetas)
-  - [Variables del entorno clave hablar del .env.example?](#variables-del-entorno-clave-hablar-del-envexample)
-  - [Despliegue](#despliegue)
-  - [Seeders](#seeders)
-  - [Rutas](#rutas)
-  - [Aplicación](#aplicación)
+1. [Visión general del sistema](#visión-general-del-sistema)
+2. [Tecnologías empleadas](#tecnologías-empleadas)
+3. [Instalación](#instalación)
+4. [Estructura de carpetas](#estructura-de-carpetas)
+5. [Despliegue](#despliegue)
+6. [Seeders](#seeders)
+7. [Rutas](#rutas)
+8. [Base de datos](#base-de-datos)
+9. [Diagrama de casos de uso](#diagrama-de-casos-de-uso)
+10. [Aplicación](#aplicación)
+
+    * [Registro de usuario](#funcionalidad-registro-de-usuario)
+    * [Login de usuario](#funcionalidad-login-de-usuario)
+    * [Flujo de usuario](#flujo-de-usuario)
+    * [Reserva de citas](#reserva-de-citas)
+    * [Citas en perfil](#citas-en-perfil)
 
 ---
 
 ## Visión general del sistema
 
-La aplicación web se encarga de la gestión de citas por parte de los clientes, así como la interacción de los mismos con la reciprocidad del servicio recibido.  
-En esta versión de la aplicación contamos con unos pilares básicos pero con un alto grado de escalabilidad.  
-Los bloques principales son: **usuarios**, **clientes**, **empleados**, **especialidades**, **contratos** y **servicios**.
+La aplicación web se encarga de la gestión de citas por parte de los clientes, así como la interacción de los mismos con la reciprocidad del servicio recibido. En esta versión contamos con unos pilares básicos pero con un alto grado de escalabilidad.
+
+La aplicación trabaja con los siguientes bloques: usuarios, clientes, empleados, especialidades, contratos, servicios.
 
 ---
 
-## Tecnologías empleadas y requisitos
+## Tecnologías empleadas
 
-- **Backend**: PHP 8.
-- **Base de datos**: MySQL 8  
-- **Contenedores**: Docker & Docker Compose  
-- **Frontend**: HTML, CSS y JavaScript estático
+* **Backend:** Laravel 11 (PHP 8.2)
+* **Base de datos:** MySQL 8
+* **Contenedores:** Docker & Docker Compose
+* **Frontend:** HTML, CSS y JavaScript estático
 
 ---
-
-## Modelo de datos?
-
-| Tituo90 1 | Titulo 2 |
-| - | - |
-| Copluman 1 | string |
-
 
 ## Instalación
 
-1. **Preparar carpeta de proyecto**  
-    Crea una carpeta llamada `Barberia` y sitúate en ella:
+1. **Preparar carpeta de proyecto**
 
-### Preparar carpeta de proyecto
+   ```bash
+   mkdir Barberia && cd Barberia
+   ```
+2. **Clonar repositorio**
 
-mkdir Barberia && cd Barberia
+   ```bash
+   git clone https://github.com/Franmii6/TFG-DAW.git .
+   ```
+3. **Estructura tras clonar**
 
-## Clonar repositorio
+   * `Backend/`
+   * `Frontend/`
+   * Manuales (`Manual_Tecnico.md`, `Manual_Usuario.md`) y `README.md`
 
-git clone <https://github.com/Franmii6/TFG-DAW.git> .
-
-2. **Tras clonar verás dos carpetas principales:**
-
-- Backend/
-
-- Frontend/
-
-Además de los manuales (Manual_Tecnico.md, Manual_Usuario.md) y README.md.
+---
 
 ## Estructura de carpetas
 
+```text
 Barberia/                   ← Carpeta raíz del proyecto
 ├── Backend/               ← Código y configuración de Laravel y Docker
 │   ├── src/               ← Código fuente Laravel
@@ -81,7 +76,7 @@ Barberia/                   ← Carpeta raíz del proyecto
 │   │   ├── public/        ← Punto de entrada (index.php)
 │   │   └── routes/        ← Definición de rutas (web.php, api.php)
 │   ├── vendor/            ← Dependencias de Composer
-│   ├── nginx/             ← Configuración de Nginx (default.conf)
+│   ├── nginx/             ← Configuración de Nginx
 │   ├── mysql/             ← Volumen de datos de MySQL
 │   ├── Dockerfile         ← Imagen PHP-FPM
 │   ├── docker-compose.yml ← Orquestación de contenedores
@@ -99,129 +94,170 @@ Barberia/                   ← Carpeta raíz del proyecto
 ├── Manual_Tecnico.md      ← Este documento
 ├── Manual_Usuario.md      ← Documento de usuario
 └── README.md              ← Descripción general del repositorio
+```
 
-## Variables del entorno clave hablar del .env.example?
-
-Comentar el .env que tengo en .env.examlple
-
-- DOCKERFILE:
-    # Usa la imagen oficial de php, versión 8.2, etiqueta fpm-alpine
-    FROM php:8.2-fpm-alpine
-
-    # Establece el directorio de trabajo
-    WORKDIR /var/www/html
-
-    # Actualizamos los paquetes e instalamos dependencias básicas como curl para peticiones HTTP, y librerías para imágenes (png, xml)
-    RUN apk update && apk add \
-        curl \  
-        libpng-dev \
-        libxml2-dev \
-        zip \
-        unzip
-
-    # Instalamos extensiones de PHP necesarias para bases de datos (MySQL) y también Node.js y npm para gestionar dependencias de frontend
-    RUN docker-php-ext-install pdo pdo_mysql \
-        && apk --no-cache add nodejs npm
-
-    # Copiamos el código fuente de la aplicación al contenedor
-    COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-
-    # Cambiamos al usuario root para poder modificar permisos de archivos
-    USER root
-
-    # Damos permisos de escritura completos (777) al directorio de la aplicación.
-    RUN chmod 777 -R /var/www/html
+---
 
 ## Despliegue
 
-Para realizar el despliegue debemos:
-    - Abrir docker según el sistema operativo que tengas en tu dispositivo
-    - Entrar en la carpeta de backend
-    - Ejecutar el comando docker-compose up, puede ponerle el párametro -d que lo ejecutará en segundo plano y podrás utilizar esa misma terminal.
-    -  Esto ejecutará el archivo docker-compose.yml que tenemos en la carpeta Backend
-       -  ## EXPLICACIÓN archivo docker-compose.yml:
-          - Indicamos con networks la red, laravel es el nombre y driver:bridge indica que los contenedor conectados a la red pueden comunicarse entre ellos.
-          - En services se encuentran los contenedores (nginx, mysql y php):
-            -NGINX:
-              -  image: nginx:alpine utiliza la imagen nginx con la etiqueta alpine
-              -  container_name: nginx es el nombre del contenedor
-              -  restart: unless-stopped: Se reiniciará el contenedor automáticamente a menos que se le indique
-              -  tty: true: Asignarle un terminal al contenedor
-              -  Ports: Usa el puerto 80 para escuchar y desplegar la aplicación por el puerto 8001
-              -  volumes:
-                 -  ./src:/var/www/html: Para indicar donde está el directorio de Laravel
-                 -  /nginx/default.conf:/etc/nginx/conf.d/default.conf: Monta el archivo de configuración local en la ubicación del Nginx dentro del contenedor.
-              - Depends on: Para indicar que el contenedor nginx depende de php, asi que montará primero el de php
-              - networks: -laravel: Indica que el contenedor está conectado a la red de laravel.
-            - MYSQL:
-              - paltform: linux/amd: Especifica la arquitectura de la imagen
-              - images: mysql: indica la imagen
-              - container_name: indica el nombre del contenedor
-              - command: --lower-case-table-names=2: Ejecuta MySQL con un argumento de comando específico que configura la forma en que MySQL maneja los nombres de tablas (los convierte a minúsculas y permite comparaciones insensibles a mayúsculas/minúsculas).
-              - restart: unless-stopped: Se reiniciará el contenedor automáticamente a menos que se le indique
-              - tty: true: Asignarle un terminal al contenedor
-              - Mapea el puerto 3306 del contenedor (puerto estándar de MySQL) al puerto 4306 de mi máquina. La conexión desde la máquina local se hará desde el puerto 4306.
-              - ./mysql:/var/lib/mysql: Monta el directorio local mysql (en la misma ubicación que docker-compose.yml) al directorio /var/lib/mysql.
-              - environment:: Define variables de entorno para configurar MySQL.
-              - MYSQL_DATABASE: laravel_docker: El nombre de la base de datos que se creará automáticamente.
-              - MYSQL_USER: user: El nombre del usuario de la base de datos que se creará.
-              - MYSQL_PASSWORD: user: La contraseña para el usuario definido.
-              - MYSQL_ROOT_PASSWORD: root: La contraseña para el usuario root de MySQL.
-              - SERVICE_TAGS: dev: Una variable de entorno personalizada, posiblemente para propósitos de monitoreo o descubrimiento de servicios.
-              - SERVICE_NAME: mysql: Otra variable de entorno personalizada, indicando el nombre del servicio.
-              - TZ: Europe/Madrid: Establece la zona horaria dentro del contenedor a Europe/Madrid.
-              - networks: -laravel: Indica que el contenedor está conectado a la red de laravel.
-            - PHP:
-              - php:: El nombre del servicio.
-              - build:: Indica que la imagen de este servicio se construirá a partir de un Dockerfile.
-                - context: .: Para indicar que se encuentra en la misma ubicación
-                - dockerfile: Dockerfile: El archivo dockerfile que se ejecutará
-              - container_name: php: Asigna el nombre php al contenedor.
-              - restart: unless-stopped: Se reiniciará el contenedor automáticamente a menos que se le indique
-              - tty: true: Asignarle un terminal al contenedor
-              - working_dir: /var/www/html: Define el directorio de trabajo dentro del contenedor, donde tu código Laravel espera residir.
-              - ./src:/var/www/html: Monta el directorio src de tu máquina local en /var/www/html dentro del contenedor PHP.
-              - ports: 9000:9000: Mapea el puerto 9000 del contenedor al puerto 9000 de tu máquina local. Este es el puerto donde PHP escuchará las solicitudes de Nginx.
-              - depends_on: mysql: El servicio PHP depende del servicio mysql para su base de datos.
-              - networks: -laravel: Indica que el contenedor está conectado a la red de laravel.
+1. Abrir Docker en tu sistema.
+2. Entrar en la carpeta `Backend`.
+3. Ejecutar:
 
-Una vez hecho el despliegue y se ha realizado correctamente, podemos ir al navegador y poner localhost:8001 y se nos verá la aplicación.
+   ```bash
+   docker-compose up -d
+   ```
+4. Acceder en el navegador a `http://localhost:8001`.
 
-IMPORTANTE!!
-Hacer primero un seeder para poblar la base de datos para incluir el administrador desde el inicio, para gestionar la base de datos desde 0 con el admin si lo quisiese.
-Ejecutar: 
-    - Una vez hecho docker-compose up -d
-    - Entramos al contenedor de php ejecutando el comando: docker exec -it php sh
-    -  Luego una vez dentro hacemos php artisan migrate:fresh --seed
-        Esto hace una migración, eliminando lo que había antes y ejecutando --seed para poblar la base de datos según las indicaciones de DatabaseSeeder.
+### Explicación de `docker-compose.yml`
+
+* **Networks:** Define la red `laravel` (driver: bridge).
+* **Services:**
+
+  * **nginx**
+
+    * `image: nginx:alpine`
+    * `ports: "80:8001"`
+    * Monta volúmenes de código y configuración.
+  * **mysql**
+
+    * `image: mysql`
+    * `ports: "3306:4306"`
+    * Variables de entorno para base de datos.
+    * `TZ: Europe/Madrid`
+  * **php**
+
+    * `build: context . , dockerfile Dockerfile`
+    * `ports: "9000:9000"`
+    * Monta `src` en `/var/www/html`.
+
+**Importante:** ejecutar el seeder inicial:
+
+```bash
+docker exec -it php sh
+php artisan migrate:fresh --seed
+```
+
+---
 
 ## Seeders
 
-Los Seeders que tengo que creado es un único archivo llamado DatabaseSeeder que se encuentra en database Seeders, que es el que se encarga de crear los seeders para poblar la base de datos.
- Utilizan los factories que son como las fábricas para crear lo que se le indicque, para indicarlo se hará en el archivo DatabaseSeeder.
+* Único archivo: `database/seeders/DatabaseSeeder.php`.
+* Se encarga de poblar la base de datos con datos iniciales (incluyendo administrador).
+
+---
 
 ## Rutas
 
-Las rutas se encuentran en routes/api.php
+* Ubicación: `routes/api.php`
+* **Públicas:**
 
-Hay dos bloques de rutas, las públicas y las privadas (Que necesitan autenticación)
+  * `POST /api/register`
+  * `POST /api/login`
+  * `GET /api/services`
+  * `GET /api/comentarios/recientes`
+  * `GET /api/employees`
+* **Privadas:** requieren `Authorization: Bearer <token>`
 
-Las rutas públicas son el post de registro, para que se registre el usuario y el post de login, para que pueda acceder el usuario
+  * `POST /api/logout`
+  * CRUD de usuarios, citas, servicios, comentarios, etc.
 
-Después hay tres rutas de get, que son services y comentarios/recientes, para mostrar los servicios y los últimos comentarios en la página de servicios, y la de employees, que muestran los empleados en la página de equipo.
+---
 
-En el bloque de rutas privadas tenemos casi todas las rutas, como son el logout, para salir de la sesión del loggeado, delete de usuarios, citas, servicios para eliminar, el update para actualizar el cliente, el usuario o la especialidad, y post para reservar citas, añadir especialidades, usuarios, clientes, servicios, comentarios, etc.
+## Base de datos
+
+*(Incluir diagrama y detalles de tablas según convenga)*
+
+---
+
+## Diagrama de casos de uso
+
+*(Incluir imagen o diagrama de casos de uso aquí)*
+
+---
 
 ## Aplicación
 
-| Archivo |   Descripción                                                                                            |
+### Funcionalidad: Registro de usuario
 
-| `js/hideHeader.js`  | Detecta el scroll y oculta o muestra la cabecera para ganar espacio de lectura.                        |
-| `js/toggleMenu.js`  | Gestiona la apertura y cierre del menú lateral al pulsando el botón que sale.                          |
-| `js/app.js`         | Donde se encuentra toda la aplicación web                                                              |      
+1. **Formulario:** `register.html` con campos:
 
-Estos son los principales archivos de la aplicación que estarán en todas las páginas, o casi todas.
+   * `nombre`, `nombreUsuario`, `email`, `contrasena`, `contrasena_confirmation`.
+2. **Frontend:** previene envío, valida contraseñas iguales, envía `POST /api/register`.
+3. **Backend:**
 
-El usuario primeramente tendrá que ir a la página de registro para poder usar la aplicación.
+   ```php
+   Route::post('register', [AuthController::class, 'register']);
+   ```
 
-Usaré en todos los 
+   * Validaciones Laravel:
+
+     | Campo           | Reglas                                                    |
+     | --------------- | --------------------------------------------------------- |
+     | `nombre`        | required, string, max:255                                 |
+     | `nombreUsuario` | required, string, max:255, unique\:usuarios,nombreUsuario |
+     | `email`         | required, email, unique\:usuarios,email                   |
+     | `contrasena`    | required, string, min:8, confirmed                        |
+   * Respuestas:
+
+     * `201 Created`: registro correcto.
+     * `422 Unprocessable Entity`: errores de validación.
+     * `500 Internal Server Error`: fallo inesperado.
+4. **Flujo final:** tras `201`, alerta de éxito y redirección a `login.html`.
+
+### Funcionalidad: Login de usuario
+
+1. **Formulario:** `login.html` con `email` y `contrasena`.
+2. **Frontend:** previene envío, envía `POST /api/login`.
+3. **Backend:**
+
+   ```php
+   Route::post('login', [AuthController::class, 'login']);
+   ```
+
+   * Validaciones:
+
+     | Campo        | Reglas          |
+     | ------------ | --------------- |
+     | `email`      | required,email  |
+     | `contrasena` | required,string |
+   * Códigos:
+
+     * `200 OK`: credenciales válidas.
+     * `401 Unauthorized`: credenciales incorrectas.
+     * `422 Unprocessable Entity`: validación.
+4. **Flujo final:** guarda `token`, `token_time`, `user`, `nombreUsuario` en `localStorage` y redirige a `index.html`.
+
+### Flujo de usuario general
+
+* **Perfil:** `perfil.html` carga `initAuth()` para validar token.
+* **Obtener datos:** `GET /api/profile` → muestra datos de usuario, cliente y contrato.
+* **Editar perfil:** `PUT /api/profile` con campos de cliente.
+
+### Reserva de citas
+
+* **Página de servicios:** `pagina3.html` carga:
+
+  1. `cargarComentariosRecientes()` → `GET /api/comentarios/recientes`
+  2. `cargarServicios()` → `GET /api/services`
+* **Modal de reserva:**
+
+  * `llenarSelectEmpleados()`, `configurarFechaMinima()`.
+  * `refrescarFranjasDisponibles()` → `GET /api/services/{id}/available-slots?fecha=YYYY-MM-DD`
+* **Confirmar reserva:**
+
+  * Si no hay contrato, `POST /api/customers/{id}/contracts`.
+  * Luego `POST /api/appointments` con datos de la cita.
+
+### Citas en perfil
+
+* **Cargar citas:** `GET /api/customers/{id}/appointments`.
+* **Acciones:**
+
+  * Cancelar (`DELETE /api/appointments/{id}`).
+  * Evaluar (`POST /api/appointments/{id}/comentarios`).
+  * Ver opinión (`GET /api/appointments/{id}/comentarios`).
+
+---
+
+*Fin del Manual Técnico*

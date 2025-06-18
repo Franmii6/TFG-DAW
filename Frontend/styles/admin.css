@@ -1,194 +1,253 @@
-/* Estilos generales para el cuerpo del panel de administración */
-body {
-  background-color: #f4f4f4;
-  color: #333;
-  font-family: "Maxlock", sans-serif;
-}
+/* admin.css – estilos “glass frosted”, tablas centradas y modal optimizado para admin.html */
 
-/* Estilos para el overlay del título principal */
-.overlay {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    padding: 2rem 0;
-    text-align: center;
-    margin-bottom: 2rem;
-}
-
-#admin-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-/* Contenedor principal del contenido del panel */
-main {
-  padding: 0 2rem;
-}
-
-/* Estilos de las secciones (Clientes, Trabajadores, etc.) */
-.seccion {
-  display: none; /* Ocultas por defecto */
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
-}
-
-.seccion.activa {
-  display: block; /* Muestra solo la sección activa */
-}
-
-.seccion h2 {
-  font-size: 2rem;
-  color: #db7704;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #eee;
-}
-
-/* Estilos para hacer las tablas responsivas */
-.table-responsive {
-    overflow-x: auto;
-}
-
-/* Estilos de las tablas */
-table {
+/* ——————————————————————————————————————— */
+/* 0) Bloquear scroll de fondo cuando el modal esté abierto */
+/* ——————————————————————————————————————— */
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
   width: 100%;
+}
+body.modal-open .table-responsive {
+  overflow: hidden !important;
+}
+
+/* ——————————————————————————————————————— */
+/* 1) Contenedor principal */
+/* ——————————————————————————————————————— */
+#admin-page {
+  position: relative;
+  overflow: visible;
+  font-family: "Maxlock", "Blenda-script", sans-serif;
+}
+
+/* ——————————————————————————————————————— */
+/* 2) Parallax: fondo fijo detrás de todo */
+/* ——————————————————————————————————————— */
+#admin-page .parallax {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-image: url("../assets/imges/barberia-vigo.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -2;
+}
+
+/* ——————————————————————————————————————— */
+/* 3) Capa difuminada del fondo (glass effect) */
+/* ——————————————————————————————————————— */
+#admin-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  filter: blur(8px);
+  transform: scale(1.1);
+  z-index: -1;
+}
+
+/* ——————————————————————————————————————— */
+/* 4) Paneles “glass frosted” para overlay y secciones */
+/* ——————————————————————————————————————— */
+#admin-page .overlay,
+#admin-page .seccion {
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  border-top: 5px solid #f5ba1a;
+  width: 90%;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 25px;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  animation: expand 0.8s ease-out forwards;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ——————————————————————————————————————— */
+/* 5) Espacio antes del footer */
+/* ——————————————————————————————————————— */
+#admin-page footer {
+  margin-top: 50px;
+}
+
+/* ——————————————————————————————————————— */
+/* 6) Animación expand */
+/* ——————————————————————————————————————— */
+@keyframes expand {
+  0%   { transform: scaleY(0); opacity: 0; }
+  50%  { transform: scaleY(1.2); }
+  100% { transform: scaleY(1); opacity: 1; }
+}
+
+/* ——————————————————————————————————————— */
+/* 7) Tablas centradas en cada sección */
+/* ——————————————————————————————————————— */
+#admin-page .seccion .table-responsive {
+  width: 100%;
+  margin: 0 auto 20px;
+  /* scroll solo si es necesario */
+  overflow-x: auto;
+}
+#admin-page .seccion table {
+  width: 100%;
+  /* columnas ajustan su ancho automáticamente */
+  table-layout: auto;
   border-collapse: collapse;
+  margin: 0 auto;
+}
+#admin-page .seccion .table-responsive table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+#admin-page .seccion th,
+#admin-page .seccion td {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+  word-wrap: break-word;
+}
+
+/* ——————————————————————————————————————— */
+/* 8) Botones dentro de las secciones */
+/* ——————————————————————————————————————— */
+#admin-page .seccion .btn-crear,
+#admin-page .seccion .btn-editar,
+#admin-page .seccion .btn-eliminar,
+#admin-page .seccion .btn-guardar {
+  background: #f5ba1a;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin: 0 5px 10px 0;
+}
+#admin-page .seccion .btn-crear:hover,
+#admin-page .seccion .btn-editar:hover,
+#admin-page .seccion .btn-eliminar:hover,
+#admin-page .seccion .btn-guardar:hover {
+  background: #e1a70a;
+}
+
+/* ——————————————————————————————————————— */
+/* 9) Modal edit-modal optimizado */
+/* ——————————————————————————————————————— */
+html, body {
+  height: 100%;
   margin: 0;
 }
-
-table th,
-table td {
-  padding: 3px 4px;
-  border: 1px solid #ddd;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 9px;
-  white-space: nowrap;
-}
-
-table th {
-  background-color: #333;
-  color: #fff;
-  font-weight: bold;
-}
-
-table tr:nth-of-type(even) {
-  background-color: #f9f9f9;
-}
-
-table tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* Estilos para los botones de acción en las tablas */
-td.acciones {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.btn-editar, .btn-eliminar, .btn-guardar {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-  font-family: "Maxlock", sans-serif;
-  font-size: 11px;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.btn-editar {
-  background-color: #28a745; /* Verde */
-}
-.btn-editar:hover {
-  background-color: #218838;
-  transform: translateY(-2px);
-}
-
-.btn-eliminar {
-  background-color: #dc3545; /* Rojo */
-}
-.btn-eliminar:hover {
-  background-color: #c82333;
-  transform: translateY(-2px);
-}
-
-.btn-guardar {
-    background-color: #007bff; /* Azul */
-}
-.btn-guardar:hover {
-    background-color: #0069d9;
-    transform: translateY(-2px);
-}
-
-/* Estilos para el Modal de Edición */
-.modal {
-  display: none;
+#edit-modal {
   position: fixed;
-  z-index: 1001;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.6);
-  padding-top: 60px;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10000;
+  overflow: hidden;
 }
-
-.modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 20px 30px;
-  border: 1px solid #888;
-  width: 80%;
+#edit-modal.active {
+  display: flex !important;
+}
+#edit-modal .modal-content {
+  width: 90%;
   max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  padding: 25px;
   border-radius: 8px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  border-top: 5px solid #f5ba1a;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
   position: relative;
 }
-
-.modal-content h3 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    color: #db7704;
+/* Estilos internos del modal */
+#edit-modal .modal-content h3 {
+  font-size: 1.5em;
+  text-align: center;
+  margin-bottom: 15px;
 }
-
-.close-btn {
-  color: #aaa;
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  font-size: 28px;
+#edit-modal .modal-content label {
   font-weight: bold;
+  margin-bottom: 5px;
 }
-.close-btn:hover,
-.close-btn:focus {
-  color: black;
-  text-decoration: none;
+#edit-modal .modal-content input,
+#edit-modal .modal-content select,
+#edit-modal .modal-content textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+#edit-modal .modal-content .form-actions {
+  text-align: center;
+  margin-top: 10px;
+}
+#edit-modal .modal-content .form-actions button {
+  background: #f5ba1a;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
   cursor: pointer;
+  transition: background 0.3s ease;
+}
+#edit-modal .modal-content .form-actions button:hover {
+  background: #e1a70a;
 }
 
-/* Estilos del formulario dentro del modal */
-#edit-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+/* ——————————————————————————————————————— */
+/* 10) Ocultar secciones y mostrar solo la activa */
+/* ——————————————————————————————————————— */
+#admin-page .seccion {
+  display: none;
+}
+#admin-page .seccion.activa {
+  display: block;
 }
 
-#edit-form input {
+/* ——————————————————————————————————————— */
+/* 11) Adaptaciones móviles */
+/* ——————————————————————————————————————— */
+@media (max-width: 768px) {
+  #admin-page .overlay,
+  #admin-page .seccion {
+    width: 90%;
+    margin: 10px auto;
+    padding: 15px;
+    gap: 10px;
+  }
+  #admin-page .seccion .btn-crear {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-.form-actions {
-    text-align: right;
-    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+  #edit-modal .modal-content {
+    width: 95%;
+    padding: 15px;
+    max-height: 95vh;
+  }
+  #edit-modal .modal-content .form-actions button {
+    width: 100%;
+  }
 }

@@ -4,6 +4,7 @@ networks:
 
 volumes:
   vendor-data:
+  mysql-data:
 
 services: 
     vendor:
@@ -42,7 +43,7 @@ services:
         ports: 
             - 4306:3306
         volumes: 
-            - ./mysql:/var/lib/mysql
+            - mysql-data:/var/lib/mysql
             - vendor-data:/var/www/html/vendor:delegated
         environment: 
             MYSQL_DATABASE: laravel_docker

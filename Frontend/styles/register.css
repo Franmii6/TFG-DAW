@@ -12,12 +12,22 @@ body {
   padding: 0;
 }
 
+header {
+  z-index: 1000;           /* ya estaba fijo, reforzamos z-index */
+}
+
 main {
-  position: relative;
-  /* Reserva espacio si tienes header fijo y footer:
-     ajusta 120px según la altura real */
-  min-height: calc(100vh - 120px);
-  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Reservamos espacio para header y footer */
+  min-height: calc(100vh - 70px - 120px);
+  /* Hacemos que main pueda desplazarse si el form es más alto */
+  overflow-y: auto;
+  /* Esta es la clave: empujar el contenido hacia abajo */
+  margin-top: 100px;
+  padding-top: 70px;      /* igual a header height */
+  padding-bottom: 120px;
 }
 
 /* ——————————————————————————————————————— */
@@ -41,9 +51,11 @@ main {
 /* 3) Formulario centrado con “vidrio esmerilado” */
 /* ——————————————————————————————————————— */
 .form_wrapper {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
+   /* Ahora lo colocamos de forma estática dentro del flex-container */
+  position: relative;     
+  transform: none;
+  margin: auto;  /* se centra automáticamente en el flex */
+  margin-top: 0;
   /* Frosted glass */
   background: rgba(255, 255, 255, 0.4);
   -webkit-backdrop-filter: blur(12px);
@@ -58,7 +70,7 @@ main {
   /* Animación de entrada */
   opacity: 0;
   animation: expand 0.8s 0.6s ease-out forwards;
-  z-index: 1;
+  z-index: 10;
 }
 
 /* ——————————————————————————————————————— */
@@ -85,7 +97,7 @@ footer {
 /* ——————————————————————————————————————— */
 /* 6) Tipografía y títulos */
 /* ——————————————————————————————————————— */
-body, input, select, textarea, button {
+body, input, select, textarea, submit {
   font-family: "Maxlock", "Blenda-script", sans-serif;
 }
 
@@ -259,5 +271,15 @@ input[type="submit"]:hover {
 @media (max-width: 600px) {
   .form_wrapper {
     padding: 20px;
+  }
+}
+
+/* 4) Media query para pantallas muy bajas: pega el form al inicio en vez de centrarlo */
+@media (max-height: 550px) {
+  main {
+    align-items: flex-start;
+  }
+  .form_wrapper {
+    margin-top: 20px !important;
   }
 }

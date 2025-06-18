@@ -3,23 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Configura la vista para dispositivos móviles -->
     <link
       rel="icon"
       href="assets/imges/FotosGenerales/LogoBarberia.png"
       type="image/jpeg"
     />
-    <!-- Ícono del sitio -->
-    <title>Peluquería Barbers</title>
+    <title>Peluquería Barbers – Login</title>
 
+    <!-- Fuentes y estilos globales -->
     <link rel="stylesheet" href="styles/fonts.css" />
     <link rel="stylesheet" href="styles/styles.css" />
+
+    <!-- ESTILOS DE REGISTER (frosted glass, parallax, form_wrapper, etc.) -->
+    <link rel="stylesheet" href="styles/register.css" /> :contentReference[oaicite:0]{index=0}
+
+    <!-- Ajustes puntuales para login (opcionalmente vacío) -->
     <link rel="stylesheet" href="styles/login.css" />
   </head>
   <body>
-    <!-- Cabecera -->
+    <!-- HEADER habitual -->
     <header>
-      <!-- Logo con enlace a la página de inicio -->
       <a href="index.html">
         <img
           class="imagen"
@@ -27,10 +30,7 @@
           alt="Logo de la Peluquería"
         />
       </a>
-      <div class="menu-toggle" onclick="toggleMenu()">
-      </div>
-
-      <!-- Menú de navegación -->
+      <div class="menu-toggle" onclick="toggleMenu()"></div>
       <nav id="menu">
         <ul>
           <li><a href="index.html">Inicio</a></li>
@@ -43,44 +43,70 @@
         </ul>
       </nav>
     </header>
-<main class="main-login">
-    <div class="left-login">
-        <img src="https://i.postimg.cc/YC13sX2Z/Astronaut-cuate.png" class="left-login-img" alt="astronaut image">
-    </div>
 
-    <div class="right-login">
-        <div class="card-login">
-            <h1>Login</h1>
-            <div class="textfield">
-                <label for="email">Email</label>
-                <input type="text" id="email" name="email" placeholder="Email">
-            </div>
+    <!-- MAIN: idéntico al register.html -->
+    <main>
+      <!-- 2) Parallax de fondo -->
+      <div class="parallax"></div>
 
-            <div class="textfield">
-                <label for="contrasena">Contraseña</label>
-                <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña">
-            </div>
-
-            <button class="btn-login" onclick="login(event)">Login</button>
-            <p class="signup-link">¿No tienes una cuenta? <a href="./register.html">Regístrate aquí</a></p>
+      <!-- 3) Frosted-glass container -->
+      <div class="form_wrapper">
+        <!-- 6) Título -->
+        <div class="title_container">
+          <h2>Iniciar Sesión</h2>
         </div>
-    </div>
-</main>
-<!-- Pie de pagina -->
-<footer>
-    <p>
-      <a href="AcercaDe.html" class="PieDePagina"
-        >Esta es una empresa ficticia y este sitio web es un proyecto de
-        prácticas.<br />
-        © 2025 Peluquería Barbers. Todos los derechos reservados.</a
-      >
-    </p>
-  </footer>
-  <!-- Script para la autenticación de usuarios -->
-  <script src="js/app.js"></script>
-  <!-- Script esconder header -->
-  <script src="js/hideHeader.js"></script>
-  <!-- Script menu hamburguesa en pantallas moviles -->
-  <script src="js/toggleMenu.js"></script>
-</body>
+        <!-- 4) Formulario -->
+        <form id="login-form" onsubmit="login(event)">
+          <!-- Email -->
+          <div class="input_field">
+            <span>✉️</span>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email"
+              required
+            />
+          </div>
+          <!-- Contraseña -->
+          <div class="input_field">
+            <span>🔒</span>
+            <input
+              type="password"
+              id="contrasena"
+              name="contrasena"
+              placeholder="Contraseña"
+              required
+            />
+          </div>
+          <!-- Botón submit hereda estilos de registro -->
+          <input type="submit" value="Entrar" />
+
+          <br>
+          <br>
+
+          <!-- Link registro -->
+          <p class="signup-link">
+            ¿No tienes cuenta?
+            <a href="register.html">Regístrate aquí</a>
+          </p>
+        </form>
+      </div>
+    </main>
+
+    <!-- FOOTER habitual -->
+    <footer>
+      <p>
+        <a href="AcercaDe.html" class="PieDePagina">
+          Esta es una empresa ficticia y este sitio web es un proyecto de prácticas.<br />
+          © 2025 Peluquería Barbers. Todos los derechos reservados.
+        </a>
+      </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/hideHeader.js"></script>
+    <script src="js/toggleMenu.js"></script>
+  </body>
 </html>

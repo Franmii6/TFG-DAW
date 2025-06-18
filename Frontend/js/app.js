@@ -1,66 +1,101 @@
-// FUNCIÓN DE REGISTRO
-async function register(event) { //Asyn function para manejar la promesa de fetch, usar await y mejorar la legibilidad del código
-  event.preventDefault(); //Prevenir que se recargue la página
+// FUNCIÓN DE REGISTRO CORREGIDA
+async function register(event) {
+  event.preventDefault();
 
-  var btn = event.target.querySelector('button[type="submit"]'); // Botón de envío
-  var orig = btn.innerText; // 
+  // 1) Localiza el botón ya sea <button> o <input>
+  const btn = event.target.querySelector(
+    'button[type="submit"], input[type="submit"]'
+  );
+  // 2) Guarda el texto original: innerText para button, value para input
+  const originalText = btn.tagName.toLowerCase() === 'button'
+    ? btn.innerText
+    : btn.value;
+
+  // 3) Desactiva y muestra estado
   btn.disabled = true;
-  btn.innerText = 'Registrando…';
-  //Guardar los valores del formulario
-
-  var nombre                = document.getElementById('nombre').value;
-  var nombreUsuario         = document.getElementById('nombreUsuario').value;
-  var email                 = document.getElementById('email').value;
-  var contrasena            = document.getElementById('contrasena').value;
-  var contrasena_confirmation = document.getElementById('contrasena_confirmation').value;
-
-  if (contrasena !== contrasena_confirmation) { //Validar la contraseña en el frontend
-    alert('¡Las contraseñas no coinciden!');
-    return;
+  if (btn.tagName.toLowerCase() === 'button') {
+    btn.innerText = 'Registrando…';
+  } else {
+    btn.value = 'Registrando…';
   }
 
-  try { //Hago un try catch para manejar errores
-    // Envio la petición al servidor
-    var res = await fetch('http://localhost:8001/api/register', { //Uso await para esperar la respuesta de la promesa
+  // 4) Recoger campos
+  const nombre                  = document.getElementById('nombre').value;
+  const nombreUsuario           = document.getElementById('nombreUsuario').value;
+  const email                   = document.getElementById('email').value;
+  const contrasena              = document.getElementById('contrasena').value;
+  const contrasena_confirmation = document.getElementById('contrasena_confirmation').value;
+
+  // 5) Validación de contraseñas
+  if (contrasena !== contrasena_confirmation) {
+    alert('¡Las contraseñas no coinciden!');
+    // Restaurar botón antes de salir
+    btn.disabled = false;
+    if (btn.tagName.toLowerCase() === 'button') btn.innerText = originalText;
+    else btn.value = originalText;
+    return false;
+  }
+
+  try {
+    // 6) Envío de la petición
+    const res = await fetch('http://localhost:8001/api/register', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json', //Content-type para enviar el body en formato JSON
-        'Accept':        'application/json' //Accept para recibir la respuesta en formato JSON
+        'Content-Type': 'application/json',
+        'Accept':       'application/json'
       },
-      body: JSON.stringify({ nombre, nombreUsuario, email, contrasena, contrasena_confirmation }) // Uso JSON.stringify para convertir el objeto a string, y pasar todas las credenciales del formulario
+      body: JSON.stringify({
+        nombre, nombreUsuario, email,
+        contrasena, contrasena_confirmation
+      })
     });
 
-    var data = await res.json(); //Creo la variable data para guardar la respuesta del servidor en formato JSON, uso await de nuevo para esperar la respuesta de la promesa
-    if (!res.ok) { //Si la respuesta no es ok, significa que hubo un error
-      // Si hay errores, los muestro en un alert
-      var msg = data.errors //Los guardo en una variable
-        ? Object.values(data.errors).flat().join('\n') //Los convierto a un string separados por un salto de línea
-        : (data.message || 'Error en registro'); //Si no hay errores, muestro el mensaje de error o un mensaje por defecto
-      alert(`Registro fallido:\n${msg}`); //Muestro el mensaje de error en un alert
-      return;
+    const data = await res.json();
+    if (!res.ok) {
+      const msg = data.errors
+        ? Object.values(data.errors).flat().join('\n')
+        : (data.message || 'Error en registro');
+      alert(`Registro fallido:\n${msg}`);
+      return false;
     }
 
-    alert('¡Registro exitoso! Ahora puedes iniciar sesión.'); //Si el registro es exitoso, muestro un mensaje de éxito
-    window.location.href = 'login.html'; //Redirijo a la página de login
-
-  } catch (err) { //Si hay un error en la petición, lo muestro en la consola y muestro un mensaje de error
-    console.error('Error en el registro:', err); //Mostrado por consola
-    alert('Error de red o servidor. Revisa la consola.'); //Hago un alert para decirle al usuario que revise la consola
-  }
-  finally {
+    alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
+    window.location.href = 'login.html';
+  } catch (err) {
+    console.error('Error en el registro:', err);
+    alert('Error de red o servidor. Revisa la consola.');
+  } finally {
+    // 7) Restaurar el botón
     btn.disabled = false;
-    btn.innerText = orig;
+    if (btn.tagName.toLowerCase() === 'button') {
+      btn.innerText = originalText;
+    } else {
+      btn.value = originalText;
+    }
   }
+  return false; // para onsubmit
 }
 
 // FUNCIÓN DE LOGIN
 async function login(event) {
   event.preventDefault(); //Evito que se recargue la página
 
-  var btn = event.target.querySelector('button[type="submit"]'); // Botón de envío
-  var orig = btn.innerText; // 
+  // 1) Localiza el botón (<button> o <input>) y guarda su texto/valor original
+  const btn = event.target.querySelector(
+    'button[type="submit"], input[type="submit"]'
+  );
+  const origText = btn.tagName.toLowerCase() === 'button'
+    ? btn.innerText
+    : btn.value;
+
+  // 2) Bloquea el botón y muestra estado
   btn.disabled = true;
-  btn.innerText = 'Registrando…';
+  if (btn.tagName.toLowerCase() === 'button') {
+    btn.innerText = 'Loggeando…';
+  } else {
+    btn.value = 'Loggeando…';
+  }
+
   
   //Guardo en una variable el email y la contraseña
   var email      = document.getElementById('email').value;
@@ -93,16 +128,24 @@ async function login(event) {
     // ▲ GUARDAMOS el nombre de usuario para montar el nav sin más fetches
     localStorage.setItem('username', data.user.nombreUsuario);
 
-    if (data.user === 'Admin' && data.email === 'admin@barberia.com') {
-          window.location.href = 'admin.html'; //Redirijo a la página de admin si es admin
+    // 6) Redirige según si es el admin
+    if (data.user.email === 'admin@barberia.com') {
+      window.location.href = 'admin.html';
     } else {
-      window.location.href = 'index.html'; //Sino, redirijo a la página de inicio
+      window.location.href = 'index.html';
     }
-
 
   } catch (err) { //Capturo el error si lo hubiese
     console.error('Error en login:', err); //Lo muestro por consola
     alert('Error de red o servidor. Revisa la consola.'); //Mando un mensaje por alert para que revise el error por consola.
+  } finally {
+    // 7) Restaura el botón
+    btn.disabled = false;
+    if (btn.tagName.toLowerCase() === 'button') {
+      btn.innerText = origText;
+    } else {
+      btn.value = origText;
+    }
   }
 }
 
@@ -166,7 +209,7 @@ function mostrarUserNav(user) {
 
   // Logout
   var liLogout = document.createElement('li'); //Creo otro li para el logout
-  var btnLogout = document.createElement('button'); //Creo un botón dentro del li
+  var btnLogout = document.createElement('a'); //Creo un a dentro del li
   btnLogout.textContent = 'Logout';
   btnLogout.addEventListener('click', logout); //Le añado un evento al botón para que al hacer click llame a la función logout
   liLogout.appendChild(btnLogout); //Añado el botón al li
@@ -656,7 +699,10 @@ async function cargarEquipo() {
 
   try {
     const res = await fetch('http://localhost:8001/api/employees', {
-      headers: { 'Accept': 'application/json' }
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
     });
     if (!res.ok) throw new Error('Error al obtener empleados');
     const empleados = await res.json();
@@ -672,7 +718,6 @@ async function cargarEquipo() {
       const tarjeta = document.createElement('div');
       tarjeta.className = 'team-member';
       tarjeta.innerHTML = `
-        <img src="${emp.photoUrl||'assets/imges/equipo/placeholder.png'}" alt="${nombreCompleto}">
         <br>
         <br>
         <h3>${nombreCompleto}</h3>
@@ -962,6 +1007,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     contenido.style.display = 'none';
 
     try {
+      // Carga parcial del loader (si existe)
       try {
         const resp = await fetch('loader.html');
         if (resp.ok) {
@@ -971,8 +1017,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       } catch (ignore) {}
 
+      // Inicialización común
       await initAuth();
 
+      // Si estamos en perfil.html, cargamos datos de perfil
       if (window.location.pathname.endsWith('/perfil.html')) {
         try {
           await obtenerDatosUsuario();
@@ -984,14 +1032,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       }
 
+      // Formularios de login y registro
       document.getElementById('form-login')?.addEventListener('submit', login);
       document.getElementById('form-register')?.addEventListener('submit', register);
 
+      // Si estamos en pagina3.html
       if (window.location.pathname.endsWith('/pagina3.html')) {
         await cargarComentariosRecientes();
         await cargarServicios();
       }
 
+      // Si estamos en pagina2.html
       if (window.location.pathname.endsWith('/pagina2.html')) {
         await cargarEquipo();
       }
@@ -1004,10 +1055,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
   } else {
+    // Modo sin loader
     contenido.style.display = 'block';
     loader.style.display    = 'none';
 
     try {
+      // Inicialización común
       await initAuth();
 
       if (window.location.pathname.endsWith('/perfil.html')) {
@@ -1037,4 +1090,4 @@ document.addEventListener('DOMContentLoaded', async () => {
       console.error('Error en init:', err);
     }
   }
-});
+});  // ← Este cierre es imprescindible: paréntesis, llave y punto y coma
